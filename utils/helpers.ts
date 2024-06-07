@@ -1,0 +1,54 @@
+import { User } from "../types/types";
+import { logger } from "../log/logger";
+import { api } from "../api/api";
+import { insertUser, getAllUsers } from "../db/db";
+
+export const getUpdates = async () => {
+    try {
+        const { data } = await api.get('/getUpdates');
+        const userIds: number[] = [];
+        const users: User[] = data.result.map((item: any) => {
+            const from = item.message.from;
+            if (!userIds.includes(from.id)) {
+                userIds.push(from.id);
+                return { ...from, chat_id: from.id };
+            }
+        }).filter((item: User | undefined) => item) as User[];
+
+        const insertPromises = users.map(user => {
+            return insertUser(user).catch(err => logger.error('Catch Error', err.message));
+        });
+
+        await Promise.all(insertPromises);
+    } catch (err) {
+        logger.error('Catch Error', err.message);
+    }
+}
+
+export const messageAllUsers = async (message = 'Global') => {
+    let dbUsers = await getAllUsers()
+
+
+    if (!dbUsers || !dbUsers.length) {
+        logger.warn('No user in db!', { message: 'There is no user in database to notify!' })
+        return
+    }
+
+    const promises = dbUsers.map(user => {
+        return api.post(`/sendMessage?chat_id=${user.chat_id}&text=${message}`).catch(err => console.log(err))
+    })
+
+    await Promise.all(promises)
+}
+
+export const getMe = async () => {
+    try {
+        const { data } = await api.get('getMe')
+    } catch (err) {
+        logger.error('Catch Error', err.message)
+    }
+}
+
+export const escapeMarkdown = (text) => {
+    return text.replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
+};

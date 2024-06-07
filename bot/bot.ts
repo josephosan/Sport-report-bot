@@ -1,17 +1,17 @@
 import { Telegraf } from 'telegraf'
 import { logger } from '../log/logger'
 import { escapeMarkdown, messageAllUsers, getUpdates } from '../utils/helpers'
-import { api_token, privilegedUsernames, acceptedKeywords } from '../config/config'
-import { updateUsersDailyState } from '../db/db'
+import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord } from '../config/config'
+import { getSingleUserReport, insertUser, updateUsersDailyState } from '../db/db'
 
 export const bot = new Telegraf(api_token)
 
-
-bot.start(async (ctx) => {
-    await getUpdates()
+bot.start(async (ctx: any) => {
+    await insertUser({ ...ctx.update.message.from })
     logger.info('Bot start', { username: ctx.update.message.from.username })
     ctx.reply('Hi! Welcome.')
 })
+
 bot.help((ctx) => {
     const replyText = `
     🌟 *Daily Workout Bot Features* 🌟
@@ -31,18 +31,34 @@ bot.help((ctx) => {
     // Send the formatted reply
     ctx.replyWithMarkdownV2(escapeMarkdown(replyText));
 })
+
 bot.on('message', async (ctx: any) => {
+    const msg = ctx.update.message
     // handling privileged users
-    if (privilegedUsernames.includes(ctx.update.message.from.username)) {
-        if (ctx.update.message.text.includes('GLOBAL MESSAGE:')) {
-            await messageAllUsers(ctx.update.message.text.split('GLOBAL MESSAGE:')[1])
+    if (privilegedUsernames.includes(msg.from.username)) {
+
+        // global messaging
+        if (msg.text.includes('GLOBAL MESSAGE:')) {
+            await messageAllUsers(msg.text.split('GLOBAL MESSAGE:')[1])
+            return
+        }
+
+        // handle getting reports 
+        if (msg.text.includes(reportKeyWord)) {
+            ctx.reply('preparing ...')
+            const uName = msg.text.split(': ')[1]
+            const data = await getSingleUserReport(uName)
+
+            const dc = JSON.parse(JSON.stringify(data))
+
+            ctx.replyWithMarkdownV2(escapeMarkdown(JSON.stringify(dc)))
             return
         }
     }
 
     // handle workout done
-    if (acceptedKeywords.includes(ctx.update.message.text)) {
-        await updateUsersDailyState(ctx.update.message.from.username)
+    if (acceptedKeywords.includes(msg.text)) {
+        await updateUsersDailyState(msg.from.username, msg.text)
         ctx.reply('🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED!')
         return
     }

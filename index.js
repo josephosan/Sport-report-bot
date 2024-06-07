@@ -40,20 +40,22 @@ var logger_1 = require("./log/logger");
 var helpers_1 = require("./utils/helpers");
 var config_1 = require("./config/config");
 var bot_1 = require("./bot/bot");
+var db_1 = require("./db/db");
 var schedule = require('node-schedule');
-// ==================== base constants ==================== //
-// ==================== base constants ==================== //
-// ==================== app and api ==================== //
-// ==================== app and api ==================== //
-// ==================== base variables ==================== //
-// ==================== base variables ==================== //
-// ==================== tel bot functions ==================== //
-// ==================== tel bot functions ==================== //
-// ==================== running jobs ==================== //
-var globalMessageJob = schedule.scheduleJob(config_1.repeatMessageTime, function () { return __awaiter(void 0, void 0, void 0, function () {
+schedule.scheduleJob(config_1.repeatMessageTime, function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, (0, helpers_1.messageAllUsers)('Did you do your workout?')];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
+schedule.scheduleJob(config_1.dailyInitValues, function () { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, db_1.initializeDailyStatus)()];
             case 1:
                 _a.sent();
                 return [2 /*return*/];

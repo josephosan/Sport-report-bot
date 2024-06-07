@@ -1,41 +1,20 @@
 
 import { logger } from './log/logger'
 import { messageAllUsers } from './utils/helpers'
-import { repeatMessageTime } from './config/config'
+import { dailyInitValues, repeatMessageTime } from './config/config'
 import { bot } from './bot/bot'
+import { initializeDailyStatus } from './db/db'
 
 
 const schedule = require('node-schedule')
 
 
-// ==================== base constants ==================== //
-
-// ==================== base constants ==================== //
-
-
-
-// ==================== app and api ==================== //
-
-// ==================== app and api ==================== //
-
-
-
-// ==================== base variables ==================== //
-
-// ==================== base variables ==================== //
-
-
-// ==================== tel bot functions ==================== //
-
-
-// ==================== tel bot functions ==================== //
-
-
-// ==================== running jobs ==================== //
-const globalMessageJob = schedule.scheduleJob(repeatMessageTime, async () => {
+schedule.scheduleJob(repeatMessageTime, async () => {
     await messageAllUsers('Did you do your workout?')
 })
-
+schedule.scheduleJob(dailyInitValues, async () => {
+    await initializeDailyStatus()
+})
 
 
 bot.launch().then(() => {

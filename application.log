@@ -48,3 +48,10 @@
 {"level":"info","message":"Bot start","timestamp":"2024-06-07T13:28:34.177Z","username":"josephosan"}
 {"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-07T18:03:27.323Z"}
 {"level":"info","message":"Bot start","timestamp":"2024-06-07T18:03:27.325Z","username":"josephosan"}
+{"level":"error","message":"Catch Error","timestamp":"2024-06-07T21:30:00.048Z"}
+{"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-07T21:30:52.458Z"}
+{"level":"info","message":"Bot start","timestamp":"2024-06-07T21:30:52.460Z","username":"josephosan"}
+{"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-07T21:33:03.217Z"}
+{"level":"info","message":"Bot start","timestamp":"2024-06-07T21:33:03.219Z","username":"josephosan"}
+{"level":"error","message":"Catch Error","timestamp":"2024-06-07T21:50:49.752Z"}
+{"level":"error","message":"Catch Error","timestamp":"2024-06-07T21:51:34.434Z"}

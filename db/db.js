@@ -35,8 +35,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUsers = exports.updateUsersDailyState = exports.insertUsersDailyInfo = exports.insertUser = void 0;
+exports.getSingleUserReport = exports.initializeDailyStatus = exports.getAllUsers = exports.updateUsersDailyState = exports.insertUsersDailyInfo = exports.insertUser = void 0;
 var pg_1 = require("pg");
 var logger_1 = require("../log/logger");
 var pool = new pg_1.Pool({
@@ -108,39 +117,46 @@ var insertUsersDailyInfo = function (user, info) { return __awaiter(void 0, void
     });
 }); };
 exports.insertUsersDailyInfo = insertUsersDailyInfo;
-var updateUsersDailyState = function (username) { return __awaiter(void 0, void 0, void 0, function () {
-    var userData, getUserQuery, rows, err_4;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                userData = undefined;
-                getUserQuery = "SELECT * FROM users WHERE username = '".concat(username, "'");
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, pool.query(getUserQuery)];
-            case 2:
-                rows = (_a.sent()).rows;
-                userData = rows[0];
-                return [3 /*break*/, 4];
-            case 3:
-                err_4 = _a.sent();
-                logger_1.logger.error('Catch Error', { message: err_4.message });
-                return [3 /*break*/, 4];
-            case 4:
-                if (!userData) {
-                    logger_1.logger.warn('USER NOT FOUND', { message: "requested user not found!" });
+var updateUsersDailyState = function (username_1) {
+    var args_1 = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args_1[_i - 1] = arguments[_i];
+    }
+    return __awaiter(void 0, __spreadArray([username_1], args_1, true), void 0, function (username, info) {
+        var userData, getUserQuery, rows, err_4;
+        if (info === void 0) { info = 'Done'; }
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    userData = undefined;
+                    getUserQuery = "SELECT * FROM users WHERE username = '".concat(username, "'");
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, pool.query(getUserQuery)];
+                case 2:
+                    rows = (_a.sent()).rows;
+                    userData = rows[0];
+                    return [3 /*break*/, 4];
+                case 3:
+                    err_4 = _a.sent();
+                    logger_1.logger.error('Catch Error', { message: err_4.message });
+                    return [3 /*break*/, 4];
+                case 4:
+                    if (!userData) {
+                        logger_1.logger.warn('USER NOT FOUND', { message: "requested user not found!" });
+                        return [2 /*return*/];
+                    }
+                    // insert users info
+                    return [4 /*yield*/, (0, exports.insertUsersDailyInfo)(userData, info)];
+                case 5:
+                    // insert users info
+                    _a.sent();
                     return [2 /*return*/];
-                }
-                // insert users info
-                return [4 /*yield*/, (0, exports.insertUsersDailyInfo)(userData, 'Done')];
-            case 5:
-                // insert users info
-                _a.sent();
-                return [2 /*return*/];
-        }
+            }
+        });
     });
-}); };
+};
 exports.updateUsersDailyState = updateUsersDailyState;
 var getAllUsers = function () { return __awaiter(void 0, void 0, void 0, function () {
     var getAllQuery, rows, err_5;
@@ -164,3 +180,48 @@ var getAllUsers = function () { return __awaiter(void 0, void 0, void 0, functio
     });
 }); };
 exports.getAllUsers = getAllUsers;
+var initializeDailyStatus = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var query, rows, err_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                query = "\n        INSERT INTO status (user_id, date, info)\n        SELECT id, CURRENT_DATE, 'Not Done'\n        FROM users,\n        ON CONFLICT (user_id, date)\n        DO NOTHING;\n    ";
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, pool.query(query)];
+            case 2:
+                rows = (_a.sent()).rows;
+                return [3 /*break*/, 4];
+            case 3:
+                err_6 = _a.sent();
+                logger_1.logger.error('Catch Error', err_6.message);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.initializeDailyStatus = initializeDailyStatus;
+var getSingleUserReport = function (username) { return __awaiter(void 0, void 0, void 0, function () {
+    var query, rows, err_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                query = "\n        SELECT \n            u.id,\n            u.username,\n            u.chat_id,\n            u.is_bot,\n            u.language_code,\n            COALESCE(\n                json_agg(\n                    json_build_object(\n                        'id', s.id,\n                        'date', s.date,\n                        'info', s.info\n                    )\n                ) FILTER (WHERE s.id IS NOT NULL), '[]'\n            ) AS statuses\n        FROM users u \n        LEFT JOIN status s ON u.id = s.user_id\n        WHERE u.username = '".concat(username, "'\n        GROUP BY \n            u.id, u.username, u.chat_id, u.is_bot, u.language_code;\n    ");
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, pool.query(query)];
+            case 2:
+                rows = (_a.sent()).rows;
+                return [2 /*return*/, rows[0]];
+            case 3:
+                err_7 = _a.sent();
+                console.log(err_7);
+                logger_1.logger.error('Catch Error', err_7.message);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getSingleUserReport = getSingleUserReport;

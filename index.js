@@ -1,11 +1,14 @@
 const axios = require('axios')
 const express = require('express')
 const { Pool } = require('pg')
+const { Telegraf } = require('telegraf')
 
 
 // ==================== base constants ==================== //
 const api_token = '7225296585:AAEhMD18-ORk0At8_POKvStNTzOPFCr9xdk'
 const baseURL = `https://api.telegram.org/bot${api_token}/`
+// ==================== base constants ==================== //
+
 
 
 // ==================== app and api ==================== //
@@ -19,13 +22,17 @@ const pool = new Pool({
 const api = axios.create({
     baseURL
 })
+const bot = new Telegraf(api_token)
 const app = express()
 app.use(express.json())
+// ==================== app and api ==================== //
 
 
 
 // ==================== base variables ==================== //
 let users
+const PORT = 3000
+// ==================== base variables ==================== //
 
 
 // ==================== database functions ==================== //
@@ -57,8 +64,16 @@ const insertUser = async (user) => {
         console.log(err)
     }
 }
+// ==================== database functions ==================== //
 
 // ==================== tel bot functions ==================== //
+bot.start((ctx) => ctx.reply('Hi!'))
+bot.help((ctx) => ctx.reply('You asked help, None of my business!'))
+bot.on('message', (ctx) => {
+    console.log(ctx)
+})
+
+
 const getUpdates = async () => {
     try {
         const { data } = await api.get('/getUpdates')
@@ -103,11 +118,28 @@ const messageAllUsers = async (message = 'Global') => {
     await Promise.all(promises)
 }
 
+const getMe = async () => {
+    try {
+        const { data } = await api.get('getMe')
+        console.log(data)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 const updateAndSendMessage = async () => {
     await getUpdates()
     await messageAllUsers()
     console.log('done!')
 }
+// ==================== tel bot functions ==================== //
 
 
-updateAndSendMessage()
+bot.launch().then(() => {
+    console.log('Bot launched successfully');
+}).catch(err => {
+    console.error('Error launching bot:', err.message);
+});
+// app.listen(PORT, () => {
+//     console.log(`LISTENING ON PORT ${PORT} ...`)
+// })

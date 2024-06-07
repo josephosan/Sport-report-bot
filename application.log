@@ -1,0 +1,48 @@
+{"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-07T12:10:13.707Z"}
+{"level":"info","message":"Bot start","timestamp":"2024-06-07T12:10:13.709Z","username":"josephosan"}
+{"level":"error","message":"Catch Error","timestamp":"2024-06-07T12:24:03.843Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER column \"josephosan\" does not exist","timestamp":"2024-06-07T12:37:19.481Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:37:19.484Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:38:52.641Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:39:26.133Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:39:41.647Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:39:41.651Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:40:16.165Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:40:16.169Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:41:05.432Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:41:05.435Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:43:54.224Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:43:54.227Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:44:56.215Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:44:56.217Z"}
+{"level":"error","message":"Catch Error","timestamp":"2024-06-07T12:48:03.142Z"}
+{"level":"error","message":"Catch Error","timestamp":"2024-06-07T12:49:10.154Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:50:08.887Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:50:08.889Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:52:32.567Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:52:32.570Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T13:12:56.988Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:12:56.991Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER bind message supplies 1 parameters, but prepared statement \"\" requires 0","timestamp":"2024-06-07T13:14:21.743Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:14:21.745Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER bind message supplies 1 parameters, but prepared statement \"\" requires 0","timestamp":"2024-06-07T13:14:55.064Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:14:55.067Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER bind message supplies 1 parameters, but prepared statement \"\" requires 0","timestamp":"2024-06-07T13:15:45.284Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:15:45.287Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T13:16:18.454Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:16:18.456Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T13:17:48.947Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:17:48.949Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T13:19:20.092Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:19:20.094Z"}
+{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T13:19:51.903Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:19:51.905Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:21:21.513Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:22:13.717Z"}
+{"level":"error","message":"Catch Error","timestamp":"2024-06-07T13:23:32.574Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:23:44.832Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:23:53.810Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:24:28.302Z"}
+{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:25:03.473Z"}
+{"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-07T13:28:34.174Z"}
+{"level":"info","message":"Bot start","timestamp":"2024-06-07T13:28:34.177Z","username":"josephosan"}

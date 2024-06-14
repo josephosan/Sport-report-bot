@@ -4,7 +4,8 @@ import { escapeMarkdown, messageAllUsers, getUpdates } from '../utils/helpers'
 import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord } from '../config/config'
 import { getSingleUserReport, insertUser, updateUsersDailyState } from '../db/db'
 
-export const bot = new Telegraf(api_token)
+if (!api_token) logger.error('NO Api Token', { message: 'no api token!' })
+export const bot = new Telegraf(api_token as string)
 
 bot.start(async (ctx: any) => {
     await insertUser({ ...ctx.update.message.from })

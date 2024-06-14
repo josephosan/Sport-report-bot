@@ -1,4 +1,6 @@
-export const api_token = '7225296585:AAEhMD18-ORk0At8_POKvStNTzOPFCr9xdk'
+require('dotenv').config()
+
+export const api_token = process.env.API_TOKEN
 export const baseURL = `https://api.telegram.org/bot${api_token}/`
 
 export const privilegedUsernames = ['josephosan']
@@ -7,4 +9,4 @@ export const reportKeyWord = 'REPORT'
 
 
 export const repeatMessageTime = '0 17 * * *'
-export const dailyInitValues = '0 1 * * *'
+export const dailyInitTime = '0 1 * * *'

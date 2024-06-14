@@ -52,7 +52,7 @@ schedule.scheduleJob(config_1.repeatMessageTime, function () { return __awaiter(
         }
     });
 }); });
-schedule.scheduleJob(config_1.dailyInitValues, function () { return __awaiter(void 0, void 0, void 0, function () {
+schedule.scheduleJob(config_1.dailyInitTime, function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, (0, db_1.initializeDailyStatus)()];

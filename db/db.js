@@ -45,7 +45,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleUserReport = exports.initializeDailyStatus = exports.getAllUsers = exports.updateUsersDailyState = exports.insertUsersDailyInfo = exports.insertUser = void 0;
+exports.getAllUsersReports = exports.getSingleUserReport = exports.initializeDailyStatus = exports.getAllUsers = exports.updateUsersDailyState = exports.insertUsersDailyInfo = exports.insertUser = void 0;
 var pg_1 = require("pg");
 var logger_1 = require("../log/logger");
 var pool = new pg_1.Pool({
@@ -169,9 +169,7 @@ var getAllUsers = function () { return __awaiter(void 0, void 0, void 0, functio
                 return [4 /*yield*/, pool.query(getAllQuery)];
             case 1:
                 rows = (_a.sent()).rows;
-                if (rows)
-                    return [2 /*return*/, rows];
-                return [3 /*break*/, 3];
+                return [2 /*return*/, rows];
             case 2:
                 err_5 = _a.sent();
                 logger_1.logger.error('Catch Error', err_5.message);
@@ -220,11 +218,32 @@ var getSingleUserReport = function (username) { return __awaiter(void 0, void 0,
                 return [2 /*return*/, rows[0]];
             case 3:
                 err_7 = _a.sent();
-                console.log(err_7);
-                logger_1.logger.error('Catch Error', err_7.message);
+                logger_1.logger.error('Catch Error', err_7);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
     });
 }); };
 exports.getSingleUserReport = getSingleUserReport;
+var getAllUsersReports = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var query, rows, err_8;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                query = "\n        SELECT \n            u.id,\n            u.username,\n            u.chat_id,\n            u.is_bot,\n            u.language_code,\n            COALESCE(\n                json_agg(\n                    json_build_object(\n                        'id', s.id,\n                        'date', s.date,\n                        'info', s.info\n                    )\n                ) FILTER (WHERE s.id IS NOT NULL), '[]'\n            ) AS statuses\n        FROM users u \n        LEFT JOIN status s ON u.id = s.user_id\n        GROUP BY \n            u.id, u.username, u.chat_id, u.is_bot, u.language_code;\n    ";
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, pool.query(query)];
+            case 2:
+                rows = (_a.sent()).rows;
+                return [2 /*return*/, rows];
+            case 3:
+                err_8 = _a.sent();
+                logger_1.logger.error('Catch Error', err_8);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getAllUsersReports = getAllUsersReports;

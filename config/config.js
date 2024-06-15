@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dailyInitTime = exports.repeatMessageTime = exports.reportKeyWord = exports.acceptedKeywords = exports.privilegedUsernames = exports.baseURL = exports.api_token = void 0;
+exports.dailyInitTime = exports.repeatMessageTime = exports.getAllUsersKeyWord = exports.globalMessageKeyWord = exports.reportKeyWord = exports.acceptedKeywords = exports.privilegedUsernames = exports.baseURL = exports.api_token = void 0;
 require('dotenv').config();
 exports.api_token = process.env.API_TOKEN;
 exports.baseURL = "https://api.telegram.org/bot".concat(exports.api_token, "/");
-exports.privilegedUsernames = ['josephosan'];
+exports.privilegedUsernames = ['josephosan', 'duniyalr'];
 exports.acceptedKeywords = ['DONE', 'COMPLETE', 'I\'VE DONE MY WORKOUT', 'TODAY IS DONE'];
-exports.reportKeyWord = 'REPORT';
+exports.reportKeyWord = 'REPORT:';
+exports.globalMessageKeyWord = 'GLOBAL MESSAGE:';
+exports.getAllUsersKeyWord = 'GET ALL USERS:';
 exports.repeatMessageTime = '0 17 * * *';
 exports.dailyInitTime = '0 1 * * *';

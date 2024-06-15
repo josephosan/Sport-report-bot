@@ -74,23 +74,30 @@ exports.bot.help(function (ctx) {
     ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(replyText));
 });
 exports.bot.on('message', function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-    var msg, uName, data, dc;
+    var msg, uName, usersReports, dc_1, data, dc, allUsers, dp;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 msg = ctx.update.message;
-                if (!config_1.privilegedUsernames.includes(msg.from.username)) return [3 /*break*/, 4];
-                if (!msg.text.includes('GLOBAL MESSAGE:')) return [3 /*break*/, 2];
-                return [4 /*yield*/, (0, helpers_1.messageAllUsers)(msg.text.split('GLOBAL MESSAGE:')[1])];
+                if (!config_1.privilegedUsernames.includes(msg.from.username)) return [3 /*break*/, 8];
+                if (!msg.text.includes(config_1.globalMessageKeyWord)) return [3 /*break*/, 2];
+                return [4 /*yield*/, (0, helpers_1.messageAllUsers)(msg.text.split(config_1.globalMessageKeyWord)[1])];
             case 1:
                 _a.sent();
                 return [2 /*return*/];
             case 2:
-                if (!msg.text.includes(config_1.reportKeyWord)) return [3 /*break*/, 4];
+                if (!msg.text.includes(config_1.reportKeyWord)) return [3 /*break*/, 6];
                 ctx.reply('preparing ...');
-                uName = msg.text.split(': ')[1];
-                return [4 /*yield*/, (0, db_1.getSingleUserReport)(uName)];
+                uName = msg.text.split(config_1.reportKeyWord)[1];
+                if (!(!uName || uName === '')) return [3 /*break*/, 4];
+                return [4 /*yield*/, (0, db_1.getAllUsersReports)()];
             case 3:
+                usersReports = _a.sent();
+                dc_1 = JSON.stringify(usersReports);
+                ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(dc_1));
+                return [2 /*return*/];
+            case 4: return [4 /*yield*/, (0, db_1.getSingleUserReport)(uName)];
+            case 5:
                 data = _a.sent();
                 if (!data) {
                     ctx.reply('No such user');
@@ -99,14 +106,26 @@ exports.bot.on('message', function (ctx) { return __awaiter(void 0, void 0, void
                 dc = JSON.stringify(data);
                 ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(dc));
                 return [2 /*return*/];
-            case 4:
-                if (!config_1.acceptedKeywords.includes(msg.text)) return [3 /*break*/, 6];
+            case 6:
+                if (!msg.text.includes(config_1.getAllUsersKeyWord)) return [3 /*break*/, 8];
+                return [4 /*yield*/, (0, db_1.getAllUsers)()];
+            case 7:
+                allUsers = _a.sent();
+                if (!allUsers || !allUsers.length) {
+                    ctx.reply('No user in DB!');
+                    return [2 /*return*/];
+                }
+                dp = JSON.stringify(allUsers);
+                ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(dp));
+                return [2 /*return*/];
+            case 8:
+                if (!config_1.acceptedKeywords.includes(msg.text)) return [3 /*break*/, 10];
                 return [4 /*yield*/, (0, db_1.updateUsersDailyState)(msg.from.username, msg.text)];
-            case 5:
+            case 9:
                 _a.sent();
                 ctx.reply('🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED!');
                 return [2 /*return*/];
-            case 6:
+            case 10:
                 // if nothing, reply
                 ctx.reply("THIS IS NO COMMAND!");
                 return [2 /*return*/];

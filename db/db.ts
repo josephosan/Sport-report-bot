@@ -26,6 +26,8 @@ export const insertUser = async (user: User) => {
         return
     }
 
+    logger.info('New User', user)
+
     const query = `
         INSERT INTO users (username, chat_id, is_bot, language_code)
         VALUES ($1, $2, $3, $4)
@@ -33,9 +35,9 @@ export const insertUser = async (user: User) => {
     `
 
     try {
-        const { rows } = await pool.query(query, [user.username, user.chat_id, user.is_bot, user.language_code])
+        const { rows } = await pool.query(query, [user.username, user.id, user.is_bot, user.language_code])
     } catch (err) {
-        logger.error('Catch Error', err.message)
+        logger.error('Catch Error', err)
     }
 }
 
@@ -100,6 +102,8 @@ export const initializeDailyStatus = async () => {
 }
 
 export const getSingleUserReport = async (username: string) => {
+    if (!username || username === '') return []
+
     const query = `
         SELECT 
             u.id,

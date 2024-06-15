@@ -79,17 +79,18 @@ var insertUser = function (user) { return __awaiter(void 0, void 0, void 0, func
                     logger_1.logger.warn('User exists', { message: 'This user already exists on db!' });
                     return [2 /*return*/];
                 }
+                logger_1.logger.info('New User', user);
                 query = "\n        INSERT INTO users (username, chat_id, is_bot, language_code)\n        VALUES ($1, $2, $3, $4)\n        RETURNING *;\n    ";
                 _a.label = 5;
             case 5:
                 _a.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, pool.query(query, [user.username, user.chat_id, user.is_bot, user.language_code])];
+                return [4 /*yield*/, pool.query(query, [user.username, user.id, user.is_bot, user.language_code])];
             case 6:
                 rows = (_a.sent()).rows;
                 return [3 /*break*/, 8];
             case 7:
                 err_2 = _a.sent();
-                logger_1.logger.error('Catch Error', err_2.message);
+                logger_1.logger.error('Catch Error', err_2);
                 return [3 /*break*/, 8];
             case 8: return [2 /*return*/];
         }
@@ -207,6 +208,8 @@ var getSingleUserReport = function (username) { return __awaiter(void 0, void 0,
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                if (!username || username === '')
+                    return [2 /*return*/, []];
                 query = "\n        SELECT \n            u.id,\n            u.username,\n            u.chat_id,\n            u.is_bot,\n            u.language_code,\n            COALESCE(\n                json_agg(\n                    json_build_object(\n                        'id', s.id,\n                        'date', s.date,\n                        'info', s.info\n                    )\n                ) FILTER (WHERE s.id IS NOT NULL), '[]'\n            ) AS statuses\n        FROM users u \n        LEFT JOIN status s ON u.id = s.user_id\n        WHERE u.username = '".concat(username, "'\n        GROUP BY \n            u.id, u.username, u.chat_id, u.is_bot, u.language_code;\n    ");
                 _a.label = 1;
             case 1:

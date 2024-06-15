@@ -1,60 +1,16 @@
-{"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-07T12:10:13.707Z"}
-{"level":"info","message":"Bot start","timestamp":"2024-06-07T12:10:13.709Z","username":"josephosan"}
-{"level":"error","message":"Catch Error","timestamp":"2024-06-07T12:24:03.843Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER column \"josephosan\" does not exist","timestamp":"2024-06-07T12:37:19.481Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:37:19.484Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:38:52.641Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:39:26.133Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:39:41.647Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:39:41.651Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:40:16.165Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:40:16.169Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:41:05.432Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:41:05.435Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:43:54.224Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:43:54.227Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:44:56.215Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:44:56.217Z"}
-{"level":"error","message":"Catch Error","timestamp":"2024-06-07T12:48:03.142Z"}
-{"level":"error","message":"Catch Error","timestamp":"2024-06-07T12:49:10.154Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:50:08.887Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:50:08.889Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T12:52:32.567Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T12:52:32.570Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T13:12:56.988Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:12:56.991Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER bind message supplies 1 parameters, but prepared statement \"\" requires 0","timestamp":"2024-06-07T13:14:21.743Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:14:21.745Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER bind message supplies 1 parameters, but prepared statement \"\" requires 0","timestamp":"2024-06-07T13:14:55.064Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:14:55.067Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER bind message supplies 1 parameters, but prepared statement \"\" requires 0","timestamp":"2024-06-07T13:15:45.284Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:15:45.287Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T13:16:18.454Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:16:18.456Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T13:17:48.947Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:17:48.949Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T13:19:20.092Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:19:20.094Z"}
-{"level":"error","message":"ERROR GETTING SINGLE USER Assignment to constant variable.","timestamp":"2024-06-07T13:19:51.903Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:19:51.905Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:21:21.513Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:22:13.717Z"}
-{"level":"error","message":"Catch Error","timestamp":"2024-06-07T13:23:32.574Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:23:44.832Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:23:53.810Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:24:28.302Z"}
-{"level":"warn","message":"USER NOT FOUND requested user not found!","timestamp":"2024-06-07T13:25:03.473Z"}
-{"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-07T13:28:34.174Z"}
-{"level":"info","message":"Bot start","timestamp":"2024-06-07T13:28:34.177Z","username":"josephosan"}
-{"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-07T18:03:27.323Z"}
-{"level":"info","message":"Bot start","timestamp":"2024-06-07T18:03:27.325Z","username":"josephosan"}
-{"level":"error","message":"Catch Error","timestamp":"2024-06-07T21:30:00.048Z"}
-{"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-07T21:30:52.458Z"}
-{"level":"info","message":"Bot start","timestamp":"2024-06-07T21:30:52.460Z","username":"josephosan"}
-{"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-07T21:33:03.217Z"}
-{"level":"info","message":"Bot start","timestamp":"2024-06-07T21:33:03.219Z","username":"josephosan"}
-{"level":"error","message":"Catch Error","timestamp":"2024-06-07T21:50:49.752Z"}
-{"level":"error","message":"Catch Error","timestamp":"2024-06-07T21:51:34.434Z"}
-{"level":"error","message":"Catch Error","timestamp":"2024-06-07T22:03:51.473Z"}
-{"level":"error","message":"Catch Error","timestamp":"2024-06-07T22:04:21.345Z"}
-{"level":"error","message":"Catch Error","timestamp":"2024-06-07T22:05:14.214Z"}
+{"level":"warn","message":"User exists This user already exists on db!","timestamp":"2024-06-15T07:13:05.609Z"}
+{"level":"info","message":"Bot start","timestamp":"2024-06-15T07:13:05.611Z","username":"josephosan"}
+{"level":"error","message":"Catch Error","timestamp":"2024-06-15T08:43:02.922Z"}
+{"level":"error","message":"Catch Error","timestamp":"2024-06-15T08:45:43.956Z"}
+{"level":"error","message":"Catch Error","timestamp":"2024-06-15T08:47:23.534Z"}
+{"first_name":"Matin","id":6760096454,"is_bot":false,"language_code":"en","last_name":"ShayanFar","level":"info","message":"New User","timestamp":"2024-06-15T09:37:59.884Z","username":"ExplicitlyDefined"}
+{"level":"info","message":"Bot start","timestamp":"2024-06-15T09:37:59.890Z","username":"ExplicitlyDefined"}
+{"first_name":"Ali","id":957409975,"is_bot":false,"language_code":"en","level":"info","message":"New User","timestamp":"2024-06-15T09:56:03.452Z"}
+{"code":"23502","column":"username","detail":"Failing row contains (9, null, 957409975, f, en).","file":"execMain.c","length":219,"level":"error","line":"2003","message":"Catch Error null value in column \"username\" of relation \"users\" violates not-null constraint","name":"error","routine":"ExecConstraints","schema":"public","severity":"ERROR","stack":"error: null value in column \"username\" of relation \"users\" violates not-null constraint\n    at /home/joseph/projects/Sport-report-bot/node_modules/pg-pool/index.js:45:11\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","table":"users","timestamp":"2024-06-15T09:56:03.456Z"}
+{"level":"info","message":"Bot start","timestamp":"2024-06-15T09:56:03.459Z"}
+{"first_name":"Mahbod","id":900656901,"is_bot":false,"language_code":"en","last_name":"Ghadiri Sani","level":"info","message":"New User","timestamp":"2024-06-15T10:14:34.599Z","username":"MahbodGhadiriSani"}
+{"level":"info","message":"Bot start","timestamp":"2024-06-15T10:14:34.602Z","username":"MahbodGhadiriSani"}
+{"first_name":"Mehrdad","id":216895363,"is_bot":false,"language_code":"en","last_name":"Aramesh","level":"info","message":"New User","timestamp":"2024-06-15T10:23:10.524Z","username":"MisterCalm"}
+{"level":"info","message":"Bot start","timestamp":"2024-06-15T10:23:10.526Z","username":"MisterCalm"}
+{"first_name":"Amirhossein.A.N","id":644969570,"is_bot":false,"language_code":"en","level":"info","message":"New User","timestamp":"2024-06-15T10:23:28.403Z","username":"Negarshi_81"}
+{"level":"info","message":"Bot start","timestamp":"2024-06-15T10:23:28.404Z","username":"Negarshi_81"}

@@ -49,10 +49,15 @@ bot.on('message', async (ctx: any) => {
             ctx.reply('preparing ...')
             const uName = msg.text.split(': ')[1]
             const data = await getSingleUserReport(uName)
+	    
+	    if (!data) {
+	    	ctx.reply('No such user')
+	        return
+	    }
 
-            const dc = JSON.parse(JSON.stringify(data))
+            const dc = JSON.stringify(data)
 
-            ctx.replyWithMarkdownV2(escapeMarkdown(JSON.stringify(dc)))
+            ctx.replyWithMarkdownV2(escapeMarkdown(dc))
             return
         }
     }

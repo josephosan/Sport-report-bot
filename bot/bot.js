@@ -53,6 +53,8 @@ var logger_1 = require("../log/logger");
 var helpers_1 = require("../utils/helpers");
 var config_1 = require("../config/config");
 var db_1 = require("../db/db");
+if (!config_1.api_token)
+    logger_1.logger.error('NO Api Token', { message: 'no api token!' });
 exports.bot = new telegraf_1.Telegraf(config_1.api_token);
 exports.bot.start(function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
@@ -90,8 +92,12 @@ exports.bot.on('message', function (ctx) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, (0, db_1.getSingleUserReport)(uName)];
             case 3:
                 data = _a.sent();
-                dc = JSON.parse(JSON.stringify(data));
-                ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(JSON.stringify(dc)));
+                if (!data) {
+                    ctx.reply('No such user');
+                    return [2 /*return*/];
+                }
+                dc = JSON.stringify(data);
+                ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(dc));
                 return [2 /*return*/];
             case 4:
                 if (!config_1.acceptedKeywords.includes(msg.text)) return [3 /*break*/, 6];

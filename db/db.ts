@@ -80,7 +80,7 @@ export const getAllUsers = async () => {
     try {
         const getAllQuery = 'SELECT * FROM users'
         const { rows } = await pool.query(getAllQuery)
-        if (rows) return rows
+        return rows
     } catch (err) {
         logger.error('Catch Error', err.message)
     }
@@ -130,7 +130,38 @@ export const getSingleUserReport = async (username: string) => {
         const { rows } = await pool.query(query)
         return rows[0]
     } catch (err) {
-        console.log(err)
-        logger.error('Catch Error', err.message)
+        logger.error('Catch Error', err)
+    }
+}
+
+
+export const getAllUsersReports = async () => {
+    const query = `
+        SELECT 
+            u.id,
+            u.username,
+            u.chat_id,
+            u.is_bot,
+            u.language_code,
+            COALESCE(
+                json_agg(
+                    json_build_object(
+                        'id', s.id,
+                        'date', s.date,
+                        'info', s.info
+                    )
+                ) FILTER (WHERE s.id IS NOT NULL), '[]'
+            ) AS statuses
+        FROM users u 
+        LEFT JOIN status s ON u.id = s.user_id
+        GROUP BY 
+            u.id, u.username, u.chat_id, u.is_bot, u.language_code;
+    `
+
+    try {
+        const { rows } = await pool.query(query)
+        return rows
+    } catch (err) {
+        logger.error('Catch Error', err)
     }
 }

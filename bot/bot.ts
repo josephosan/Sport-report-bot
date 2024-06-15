@@ -1,8 +1,8 @@
 import { Telegraf } from 'telegraf'
 import { logger } from '../log/logger'
 import { escapeMarkdown, messageAllUsers, getUpdates } from '../utils/helpers'
-import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord } from '../config/config'
-import { getSingleUserReport, insertUser, updateUsersDailyState } from '../db/db'
+import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord, globalMessageKeyWord, getAllUsersKeyWord } from '../config/config'
+import { getAllUsers, getAllUsersReports, getSingleUserReport, insertUser, updateUsersDailyState } from '../db/db'
 
 if (!api_token) logger.error('NO Api Token', { message: 'no api token!' })
 export const bot = new Telegraf(api_token as string)
@@ -39,25 +39,51 @@ bot.on('message', async (ctx: any) => {
     if (privilegedUsernames.includes(msg.from.username)) {
 
         // global messaging
-        if (msg.text.includes('GLOBAL MESSAGE:')) {
-            await messageAllUsers(msg.text.split('GLOBAL MESSAGE:')[1])
+        if (msg.text.includes(globalMessageKeyWord)) {
+            await messageAllUsers(msg.text.split(globalMessageKeyWord)[1])
             return
         }
 
         // handle getting reports 
         if (msg.text.includes(reportKeyWord)) {
             ctx.reply('preparing ...')
-            const uName = msg.text.split(': ')[1]
+            const uName = msg.text.split(reportKeyWord)[1]
+
+            // get all users reports
+            if (!uName || uName === '') {
+                const usersReports = await getAllUsersReports()
+
+                const dc = JSON.stringify(usersReports)
+
+                ctx.replyWithMarkdownV2(escapeMarkdown(dc))
+                return
+            }
+
             const data = await getSingleUserReport(uName)
 	    
-	    if (!data) {
-	    	ctx.reply('No such user')
-	        return
-	    }
+            if (!data) {
+                ctx.reply('No such user')
+                return
+            }
 
             const dc = JSON.stringify(data)
 
             ctx.replyWithMarkdownV2(escapeMarkdown(dc))
+            return
+        }
+
+        // get all users
+        if (msg.text.includes(getAllUsersKeyWord)) {
+            const allUsers = await getAllUsers()
+
+            if (!allUsers || !allUsers.length) {
+                ctx.reply('No user in DB!')
+                return
+            }
+
+            const dp = JSON.stringify(allUsers)
+
+            ctx.replyWithMarkdownV2(escapeMarkdown(dp))
             return
         }
     }

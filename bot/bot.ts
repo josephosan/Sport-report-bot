@@ -1,7 +1,7 @@
 import { Telegraf } from 'telegraf'
 import { logger } from '../log/logger'
 import { escapeMarkdown, messageAllUsers, getUpdates } from '../utils/helpers'
-import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord, globalMessageKeyWord, getAllUsersKeyWord } from '../config/config'
+import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord, globalMessageKeyWord, getAllUsersKeyWord, getPrivilegedUsernamesKeyWord } from '../config/config'
 import { getAllUsers, getAllUsersReports, getSingleUserReport, insertUser, updateUsersDailyState } from '../db/db'
 
 if (!api_token) logger.error('NO Api Token', { message: 'no api token!' })
@@ -37,6 +37,14 @@ bot.on('message', async (ctx: any) => {
     const msg = ctx.update.message
     // handling privileged users
     if (privilegedUsernames.includes(msg.from.username)) {
+
+        // get privileged usernames
+        if (msg.text.includes(getPrivilegedUsernamesKeyWord)) {
+            const dp = JSON.stringify(privilegedUsernames)
+
+            ctx.replyWithMarkdownV2(escapeMarkdown(dp))
+            return
+        }
 
         // global messaging
         if (msg.text.includes(globalMessageKeyWord)) {

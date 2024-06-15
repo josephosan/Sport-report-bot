@@ -8,6 +8,7 @@ export const acceptedKeywords = ['DONE', 'COMPLETE', 'I\'VE DONE MY WORKOUT', 'T
 export const reportKeyWord = 'REPORT:'
 export const globalMessageKeyWord = 'GLOBAL MESSAGE:'
 export const getAllUsersKeyWord = 'GET ALL USERS:'
+export const getPrivilegedUsernamesKeyWord = 'GET ADMINS:'
 
 
 export const repeatMessageTime = '0 17 * * *'

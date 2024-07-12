@@ -1,13 +1,14 @@
 import { Pool } from 'pg'
 import { User } from '../types/types'
 import { logger } from '../log/logger'
+import { dbPassword, dbUser } from '../config/config'
 
 
 const pool = new Pool({
-    user: 'postgres',
+    user: dbUser,
     host: 'localhost',
     database: 'sportreport',
-    password: '12345678',
+    password: dbPassword,
     port: 5432,
 })
 

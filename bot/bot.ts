@@ -103,10 +103,8 @@ bot.on('message', async (ctx: any) => {
             ctx.reply('Processing ...')
             await updateUsersDailyState(msg.from.username, msg.text)
             const { data }: any = await api.get(dailyQuoteUrl)
-            console.log(data)
             ctx.reply(`🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${data.quote.body}`)
         } catch (err) {
-            console.log(err)
             logger.error('Daily quote', { message: err })
             ctx.reply('An unexpected error!')
         }

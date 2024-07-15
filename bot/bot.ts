@@ -1,7 +1,7 @@
 import { Telegraf } from 'telegraf'
 import { logger } from '../log/logger'
-import { escapeMarkdown, messageAllUsers, getUpdates } from '../utils/helpers'
-import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord, globalMessageKeyWord, getAllUsersKeyWord, getPrivilegedUsernamesKeyWord, dailyQuoteUrl } from '../config/config'
+import { escapeMarkdown, messageAllUsers, getUpdates, getQuote } from '../utils/helpers'
+import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord, globalMessageKeyWord, getAllUsersKeyWord, getPrivilegedUsernamesKeyWord, dailyQuoteUrl, quoteMeKeyWord } from '../config/config'
 import { getAllUsers, getAllUsersReports, getSingleUserReport, insertUser, updateUsersDailyState } from '../db/db'
 import { api } from '../api/api'
 
@@ -102,12 +102,21 @@ bot.on('message', async (ctx: any) => {
         try {
             ctx.reply('Processing ...')
             await updateUsersDailyState(msg.from.username, msg.text)
-            const { data }: any = await api.get(dailyQuoteUrl)
-            ctx.reply(`🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${data.quote.body}`)
+            const q = await getQuote()
+            ctx.reply(`🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${q}`)
         } catch (err) {
             logger.error('Daily quote', { message: err })
             ctx.reply('An unexpected error!')
         }
+        return
+    }
+
+    // handle quote
+    if (msg.text === quoteMeKeyWord) {
+        try {
+            const q = await getQuote()
+            ctx.reply(`Quote: ${q}`)
+        } catch (err) {}
         return
     }
 

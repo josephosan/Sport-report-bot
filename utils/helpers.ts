@@ -2,6 +2,7 @@ import { User } from "../types/types";
 import { logger } from "../log/logger";
 import { api } from "../api/api";
 import { insertUser, getAllUsers } from "../db/db";
+import { dailyQuoteUrl } from "../config/config";
 
 export const getUpdates = async () => {
     try {
@@ -51,4 +52,8 @@ export const getMe = async () => {
 
 export const escapeMarkdown = (text) => {
     return text.replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
-};
+}
+
+export const getQuote = async () => {
+    return (await api.get(dailyQuoteUrl)).data.quote.body
+}

@@ -56,10 +56,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.escapeMarkdown = exports.getMe = exports.messageAllUsers = exports.getUpdates = void 0;
+exports.getQuote = exports.escapeMarkdown = exports.getMe = exports.messageAllUsers = exports.getUpdates = void 0;
 var logger_1 = require("../log/logger");
 var api_1 = require("../api/api");
 var db_1 = require("../db/db");
+var config_1 = require("../config/config");
 var getUpdates = function () { return __awaiter(void 0, void 0, void 0, function () {
     var data, userIds_1, users, insertPromises, err_1;
     return __generator(this, function (_a) {
@@ -145,3 +146,12 @@ var escapeMarkdown = function (text) {
     return text.replace(/([_*[\]()~`>#+\-=|{}.!])/g, '\\$1');
 };
 exports.escapeMarkdown = escapeMarkdown;
+var getQuote = function () { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, api_1.api.get(config_1.dailyQuoteUrl)];
+            case 1: return [2 /*return*/, (_a.sent()).data.quote.body];
+        }
+    });
+}); };
+exports.getQuote = getQuote;

@@ -53,7 +53,6 @@ var logger_1 = require("../log/logger");
 var helpers_1 = require("../utils/helpers");
 var config_1 = require("../config/config");
 var db_1 = require("../db/db");
-var api_1 = require("../api/api");
 if (!config_1.api_token)
     logger_1.logger.error('NO Api Token', { message: 'no api token!' });
 exports.bot = new telegraf_1.Telegraf(config_1.api_token);
@@ -75,7 +74,7 @@ exports.bot.help(function (ctx) {
     ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(replyText));
 });
 exports.bot.on('message', function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-    var msg, dp, uName, usersReports, dc_1, data, dc, allUsers, dp, data, err_1;
+    var msg, dp, uName, usersReports, dc_1, data, dc, allUsers, dp, q, err_1, q, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -134,20 +133,32 @@ exports.bot.on('message', function (ctx) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, (0, db_1.updateUsersDailyState)(msg.from.username, msg.text)];
             case 10:
                 _a.sent();
-                return [4 /*yield*/, api_1.api.get(config_1.dailyQuoteUrl)];
+                return [4 /*yield*/, (0, helpers_1.getQuote)()];
             case 11:
-                data = (_a.sent()).data;
-                console.log(data);
-                ctx.reply("\uD83C\uDFCB\uFE0F\u200D\u2642\uFE0F GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ".concat(data.quote.body));
+                q = _a.sent();
+                ctx.reply("\uD83C\uDFCB\uFE0F\u200D\u2642\uFE0F GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ".concat(q));
                 return [3 /*break*/, 13];
             case 12:
                 err_1 = _a.sent();
-                console.log(err_1);
                 logger_1.logger.error('Daily quote', { message: err_1 });
                 ctx.reply('An unexpected error!');
                 return [3 /*break*/, 13];
             case 13: return [2 /*return*/];
             case 14:
+                if (!(msg.text === config_1.quoteMeKeyWord)) return [3 /*break*/, 19];
+                _a.label = 15;
+            case 15:
+                _a.trys.push([15, 17, , 18]);
+                return [4 /*yield*/, (0, helpers_1.getQuote)()];
+            case 16:
+                q = _a.sent();
+                ctx.reply("Quote: ".concat(q));
+                return [3 /*break*/, 18];
+            case 17:
+                err_2 = _a.sent();
+                return [3 /*break*/, 18];
+            case 18: return [2 /*return*/];
+            case 19:
                 // if nothing, reply
                 ctx.reply("THIS IS NO COMMAND!");
                 return [2 /*return*/];

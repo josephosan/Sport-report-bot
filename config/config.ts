@@ -13,6 +13,7 @@ export const reportKeyWord = 'REPORT:'
 export const globalMessageKeyWord = 'GLOBAL MESSAGE:'
 export const getAllUsersKeyWord = 'GET ALL USERS:'
 export const getPrivilegedUsernamesKeyWord = 'GET ADMINS:'
+export const quoteMeKeyWord = 'QUOTE ME:'
 
 
 export const repeatMessageTime = '0 17 * * *'

@@ -75,7 +75,7 @@ exports.bot.help(function (ctx) {
     ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(replyText));
 });
 exports.bot.on('message', function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-    var msg, dp, uName, usersReports, dc_1, data, dc, allUsers, dp, quote, err_1;
+    var msg, dp, uName, usersReports, dc_1, data, dc, allUsers, dp, data, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -136,11 +136,14 @@ exports.bot.on('message', function (ctx) { return __awaiter(void 0, void 0, void
                 _a.sent();
                 return [4 /*yield*/, api_1.api.get(config_1.dailyQuoteUrl)];
             case 11:
-                quote = (_a.sent()).quote;
-                ctx.reply("\uD83C\uDFCB\uFE0F\u200D\u2642\uFE0F GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ".concat(quote.body));
+                data = (_a.sent()).data;
+                console.log(data);
+                ctx.reply("\uD83C\uDFCB\uFE0F\u200D\u2642\uFE0F GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ".concat(data.quote.body));
                 return [3 /*break*/, 13];
             case 12:
                 err_1 = _a.sent();
+                console.log(err_1);
+                logger_1.logger.error('Daily quote', { message: err_1 });
                 ctx.reply('An unexpected error!');
                 return [3 /*break*/, 13];
             case 13: return [2 /*return*/];

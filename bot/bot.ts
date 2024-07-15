@@ -102,9 +102,9 @@ bot.on('message', async (ctx: any) => {
         try {
             ctx.reply('Processing ...')
             await updateUsersDailyState(msg.from.username, msg.text)
-            const { quote }: any = await api.get(dailyQuoteUrl)
-            console.log(quote)
-            ctx.reply(`🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${quote.body}`)
+            const { data }: any = await api.get(dailyQuoteUrl)
+            console.log(data)
+            ctx.reply(`🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${data.quote.body}`)
         } catch (err) {
             console.log(err)
             logger.error('Daily quote', { message: err })

@@ -1,8 +1,9 @@
 import { Telegraf } from 'telegraf'
 import { logger } from '../log/logger'
 import { escapeMarkdown, messageAllUsers, getUpdates } from '../utils/helpers'
-import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord, globalMessageKeyWord, getAllUsersKeyWord, getPrivilegedUsernamesKeyWord } from '../config/config'
+import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord, globalMessageKeyWord, getAllUsersKeyWord, getPrivilegedUsernamesKeyWord, dailyQuoteUrl } from '../config/config'
 import { getAllUsers, getAllUsersReports, getSingleUserReport, insertUser, updateUsersDailyState } from '../db/db'
+import { api } from '../api/api'
 
 if (!api_token) logger.error('NO Api Token', { message: 'no api token!' })
 export const bot = new Telegraf(api_token as string)
@@ -98,8 +99,10 @@ bot.on('message', async (ctx: any) => {
 
     // handle workout done
     if (acceptedKeywords.includes(msg.text)) {
+        ctx.reply('Processing ...')
         await updateUsersDailyState(msg.from.username, msg.text)
-        ctx.reply('🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED!')
+        const { quote }: any = await api.get(dailyQuoteUrl)
+        ctx.reply(`🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${quote.body}`)
         return
     }
 

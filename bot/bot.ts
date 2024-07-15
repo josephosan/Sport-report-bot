@@ -80,7 +80,7 @@ bot.on('message', async (ctx: any) => {
 
             let result = ''
 
-            result = data.statuses.map(stat => `${stat.date}: ${stat.info} \n`)
+            result = data.statuses.map(stat => `${stat.date}: ${stat.info} \n`).join('\n')
 
             ctx.replyWithMarkdownV2(escapeMarkdown(result))
             return

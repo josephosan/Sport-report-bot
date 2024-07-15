@@ -53,6 +53,7 @@ var logger_1 = require("../log/logger");
 var helpers_1 = require("../utils/helpers");
 var config_1 = require("../config/config");
 var db_1 = require("../db/db");
+var api_1 = require("../api/api");
 if (!config_1.api_token)
     logger_1.logger.error('NO Api Token', { message: 'no api token!' });
 exports.bot = new telegraf_1.Telegraf(config_1.api_token);
@@ -74,12 +75,18 @@ exports.bot.help(function (ctx) {
     ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(replyText));
 });
 exports.bot.on('message', function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-    var msg, uName, usersReports, dc_1, data, dc, allUsers, dp;
+    var msg, dp, uName, usersReports, dc_1, data, dc, allUsers, dp, quote, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 msg = ctx.update.message;
                 if (!config_1.privilegedUsernames.includes(msg.from.username)) return [3 /*break*/, 8];
+                // get privileged usernames
+                if (msg.text.includes(config_1.getPrivilegedUsernamesKeyWord)) {
+                    dp = JSON.stringify(config_1.privilegedUsernames);
+                    ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(dp));
+                    return [2 /*return*/];
+                }
                 if (!msg.text.includes(config_1.globalMessageKeyWord)) return [3 /*break*/, 2];
                 return [4 /*yield*/, (0, helpers_1.messageAllUsers)(msg.text.split(config_1.globalMessageKeyWord)[1])];
             case 1:
@@ -119,13 +126,25 @@ exports.bot.on('message', function (ctx) { return __awaiter(void 0, void 0, void
                 ctx.replyWithMarkdownV2((0, helpers_1.escapeMarkdown)(dp));
                 return [2 /*return*/];
             case 8:
-                if (!config_1.acceptedKeywords.includes(msg.text)) return [3 /*break*/, 10];
-                return [4 /*yield*/, (0, db_1.updateUsersDailyState)(msg.from.username, msg.text)];
+                if (!config_1.acceptedKeywords.includes(msg.text)) return [3 /*break*/, 14];
+                _a.label = 9;
             case 9:
-                _a.sent();
-                ctx.reply('🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED!');
-                return [2 /*return*/];
+                _a.trys.push([9, 12, , 13]);
+                ctx.reply('Processing ...');
+                return [4 /*yield*/, (0, db_1.updateUsersDailyState)(msg.from.username, msg.text)];
             case 10:
+                _a.sent();
+                return [4 /*yield*/, api_1.api.get(config_1.dailyQuoteUrl)];
+            case 11:
+                quote = (_a.sent()).quote;
+                ctx.reply("\uD83C\uDFCB\uFE0F\u200D\u2642\uFE0F GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ".concat(quote.body));
+                return [3 /*break*/, 13];
+            case 12:
+                err_1 = _a.sent();
+                ctx.reply('An unexpected error!');
+                return [3 /*break*/, 13];
+            case 13: return [2 /*return*/];
+            case 14:
                 // if nothing, reply
                 ctx.reply("THIS IS NO COMMAND!");
                 return [2 /*return*/];

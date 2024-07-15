@@ -48,11 +48,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllUsersReports = exports.getSingleUserReport = exports.initializeDailyStatus = exports.getAllUsers = exports.updateUsersDailyState = exports.insertUsersDailyInfo = exports.insertUser = void 0;
 var pg_1 = require("pg");
 var logger_1 = require("../log/logger");
+var config_1 = require("../config/config");
 var pool = new pg_1.Pool({
-    user: 'postgres',
+    user: config_1.dbUser,
     host: 'localhost',
     database: 'sportreport',
-    password: '12345678',
+    password: config_1.dbPassword,
     port: 5432,
 });
 var insertUser = function (user) { return __awaiter(void 0, void 0, void 0, function () {

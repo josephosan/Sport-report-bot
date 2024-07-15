@@ -99,10 +99,15 @@ bot.on('message', async (ctx: any) => {
 
     // handle workout done
     if (acceptedKeywords.includes(msg.text)) {
-        ctx.reply('Processing ...')
-        await updateUsersDailyState(msg.from.username, msg.text)
-        const { quote }: any = await api.get(dailyQuoteUrl)
-        ctx.reply(`🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${quote.body}`)
+        try {
+            ctx.reply('Processing ...')
+            await updateUsersDailyState(msg.from.username, msg.text)
+            const { quote }: any = await api.get(dailyQuoteUrl)
+            ctx.reply(`🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${quote.body}`)
+        } catch (err) {
+            logger.error('Daily quote', { err })
+            ctx.reply('An unexpected error!')
+        }
         return
     }
 

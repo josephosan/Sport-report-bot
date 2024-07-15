@@ -78,9 +78,11 @@ bot.on('message', async (ctx: any) => {
                 return
             }
 
-            const dc = JSON.stringify(data)
+            let result = ''
 
-            ctx.replyWithMarkdownV2(escapeMarkdown(dc))
+            result = data.statuses.map(stat => `${stat.date}: ${stat.info} \n`)
+
+            ctx.replyWithMarkdownV2(escapeMarkdown(result))
             return
         }
 

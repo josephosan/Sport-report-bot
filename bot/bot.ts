@@ -28,6 +28,9 @@ bot.help((ctx) => {
     - If you are a coach (a user with full access to the bot), you can use the following keywords for additional functionalities:
         - **"GLOBAL MESSAGE:"** 🌐: Use this keyword in your message to notify all members.
         - **"GET REPORT"** 📊: Use this keyword to view users' daily statuses.
+    
+    4. **Daily Quote** 📜
+    - The bot will send a quote every day if you do your workout. You can get one if you command 'QUOTE ME:' either.
     `;
 
     // Send the formatted reply

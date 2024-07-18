@@ -205,3 +205,21 @@ export const insertUsersMessage = async (
     });
   }
 };
+
+export const getUsersMessagesByUsername: (
+  username: string
+) => Promise<any[] | undefined> = async (username: string) => {
+  const query = `
+        SELECT * FROM messages WHERE username = '${username}'
+    `;
+
+  try {
+    const { rows } = await pool.query(query);
+    return rows;
+  } catch (err) {
+    logger.error("Users messages", {
+      message: "Failed to get users messages",
+      err,
+    });
+  }
+};

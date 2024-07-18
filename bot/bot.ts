@@ -14,7 +14,7 @@ import {
   globalMessageKeyWord,
   getAllUsersKeyWord,
   getPrivilegedUsernamesKeyWord,
-  dailyQuoteUrl,
+  getUsersMessagesKeyWord,
   quoteMeKeyWord,
 } from "../config/config";
 import {
@@ -22,6 +22,7 @@ import {
   getAllUsersReports,
   getOneUserByUsername,
   getSingleUserReport,
+  getUsersMessagesByUsername,
   insertUser,
   insertUsersMessage,
   updateUsersDailyState,
@@ -66,8 +67,17 @@ bot.on("message", async (ctx: any) => {
   logger.info("Info", { message: "message", msg });
   // handling privileged users
   if (privilegedUsernames.includes(msg.from.username)) {
-    // get privileged usernames
+    // get users messages
+    if (msg.text.includes(getUsersMessagesKeyWord)) {
+      const ms = await getUsersMessagesByUsername(msg.from.username);
+      const result = JSON.stringify(ms);
+
+      ctx.replyWithMarkdownV2(escapeMarkdown(result));
+      return;
+    }
+
     if (msg.text.includes(getPrivilegedUsernamesKeyWord)) {
+      // get privileged usernames
       const dp = JSON.stringify(privilegedUsernames);
 
       ctx.replyWithMarkdownV2(escapeMarkdown(dp));

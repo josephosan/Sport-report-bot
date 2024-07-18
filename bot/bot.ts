@@ -1,21 +1,43 @@
-import { Telegraf } from 'telegraf'
-import { logger } from '../log/logger'
-import { escapeMarkdown, messageAllUsers, getUpdates, getQuote } from '../utils/helpers'
-import { api_token, privilegedUsernames, acceptedKeywords, reportKeyWord, globalMessageKeyWord, getAllUsersKeyWord, getPrivilegedUsernamesKeyWord, dailyQuoteUrl, quoteMeKeyWord } from '../config/config'
-import { getAllUsers, getAllUsersReports, getSingleUserReport, insertUser, updateUsersDailyState } from '../db/db'
-import { api } from '../api/api'
+import { Telegraf } from "telegraf";
+import { logger } from "../log/logger";
+import {
+  escapeMarkdown,
+  messageAllUsers,
+  getUpdates,
+  getQuote,
+} from "../utils/helpers";
+import {
+  api_token,
+  privilegedUsernames,
+  acceptedKeywords,
+  reportKeyWord,
+  globalMessageKeyWord,
+  getAllUsersKeyWord,
+  getPrivilegedUsernamesKeyWord,
+  dailyQuoteUrl,
+  quoteMeKeyWord,
+} from "../config/config";
+import {
+  getAllUsers,
+  getAllUsersReports,
+  getSingleUserReport,
+  insertUser,
+  insertUsersMessage,
+  updateUsersDailyState,
+} from "../db/db";
+import { api } from "../api/api";
 
-if (!api_token) logger.error('NO Api Token', { message: 'no api token!' })
-export const bot = new Telegraf(api_token as string)
+if (!api_token) logger.error("NO Api Token", { message: "no api token!" });
+export const bot = new Telegraf(api_token as string);
 
 bot.start(async (ctx: any) => {
-    await insertUser({ ...ctx.update.message.from })
-    logger.info('Bot start', { username: ctx.update.message.from.username })
-    ctx.reply('Hi! Welcome.')
-})
+  await insertUser({ ...ctx.update.message.from });
+  logger.info("Bot start", { username: ctx.update.message.from.username });
+  ctx.reply("Hi! Welcome.");
+});
 
 bot.help((ctx) => {
-    const replyText = `
+  const replyText = `
     🌟 *Daily Workout Bot Features* 🌟
 
     1. **Completion Detection** 🏆
@@ -33,98 +55,102 @@ bot.help((ctx) => {
     - The bot will send a quote every day if you do your workout. You can get one if you command 'QUOTE ME:' either.
     `;
 
-    // Send the formatted reply
-    ctx.replyWithMarkdownV2(escapeMarkdown(replyText));
-})
+  // Send the formatted reply
+  ctx.replyWithMarkdownV2(escapeMarkdown(replyText));
+});
 
-bot.on('message', async (ctx: any) => {
-    const msg = ctx.update.message
-    // handling privileged users
-    if (privilegedUsernames.includes(msg.from.username)) {
+bot.on("message", async (ctx: any) => {
+  const msg = ctx.update.message;
+  // handling privileged users
+  if (privilegedUsernames.includes(msg.from.username)) {
+    // get privileged usernames
+    if (msg.text.includes(getPrivilegedUsernamesKeyWord)) {
+      const dp = JSON.stringify(privilegedUsernames);
 
-        // get privileged usernames
-        if (msg.text.includes(getPrivilegedUsernamesKeyWord)) {
-            const dp = JSON.stringify(privilegedUsernames)
-
-            ctx.replyWithMarkdownV2(escapeMarkdown(dp))
-            return
-        }
-
-        // global messaging
-        if (msg.text.includes(globalMessageKeyWord)) {
-            await messageAllUsers(msg.text.split(globalMessageKeyWord)[1])
-            return
-        }
-
-        // handle getting reports 
-        if (msg.text.includes(reportKeyWord)) {
-            ctx.reply('preparing ...')
-            const uName = msg.text.split(reportKeyWord)[1]
-
-            // get all users reports
-            if (!uName || uName === '') {
-                const usersReports = await getAllUsersReports()
-
-                const dc = JSON.stringify(usersReports)
-
-                ctx.replyWithMarkdownV2(escapeMarkdown(dc))
-                return
-            }
-
-            const data = await getSingleUserReport(uName)
-	    
-            if (!data) {
-                ctx.reply('No such user')
-                return
-            }
-
-            let result = ''
-
-            result = data.statuses.map(stat => `${stat.date}: ${stat.info} \n`).join('\n')
-
-            ctx.replyWithMarkdownV2(escapeMarkdown(result))
-            return
-        }
-
-        // get all users
-        if (msg.text.includes(getAllUsersKeyWord)) {
-            const allUsers = await getAllUsers()
-
-            if (!allUsers || !allUsers.length) {
-                ctx.reply('No user in DB!')
-                return
-            }
-
-            const dp = JSON.stringify(allUsers)
-
-            ctx.replyWithMarkdownV2(escapeMarkdown(dp))
-            return
-        }
+      ctx.replyWithMarkdownV2(escapeMarkdown(dp));
+      return;
     }
 
-    // handle workout done
-    if (acceptedKeywords.includes(msg.text)) {
-        try {
-            ctx.reply('Processing ...')
-            await updateUsersDailyState(msg.from.username, msg.text)
-            const q = await getQuote()
-            ctx.reply(`🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${q}`)
-        } catch (err) {
-            logger.error('Daily quote', { message: err })
-            ctx.reply('An unexpected error!')
-        }
-        return
+    // global messaging
+    if (msg.text.includes(globalMessageKeyWord)) {
+      await messageAllUsers(msg.text.split(globalMessageKeyWord)[1]);
+      return;
     }
 
-    // handle quote
-    if (msg.text === quoteMeKeyWord) {
-        try {
-            const q = await getQuote()
-            ctx.reply(`Quote: ${q}`)
-        } catch (err) {}
-        return
+    // handle getting reports
+    if (msg.text.includes(reportKeyWord)) {
+      ctx.reply("preparing ...");
+      const uName = msg.text.split(reportKeyWord)[1];
+
+      // get all users reports
+      if (!uName || uName === "") {
+        const usersReports = await getAllUsersReports();
+
+        const dc = JSON.stringify(usersReports);
+
+        ctx.replyWithMarkdownV2(escapeMarkdown(dc));
+        return;
+      }
+
+      const data = await getSingleUserReport(uName);
+
+      if (!data) {
+        ctx.reply("No such user");
+        return;
+      }
+
+      let result = "";
+
+      result = data.statuses
+        .map((stat) => `${stat.date}: ${stat.info} \n`)
+        .join("\n");
+
+      ctx.replyWithMarkdownV2(escapeMarkdown(result));
+      return;
     }
 
-    // if nothing, reply
-    ctx.reply(`THIS IS NO COMMAND!`)
-})
+    // get all users
+    if (msg.text.includes(getAllUsersKeyWord)) {
+      const allUsers = await getAllUsers();
+
+      if (!allUsers || !allUsers.length) {
+        ctx.reply("No user in DB!");
+        return;
+      }
+
+      const dp = JSON.stringify(allUsers);
+
+      ctx.replyWithMarkdownV2(escapeMarkdown(dp));
+      return;
+    }
+  }
+
+  // handle workout done
+  if (acceptedKeywords.includes(msg.text)) {
+    try {
+      ctx.reply("Processing ...");
+      await updateUsersDailyState(msg.from.username, msg.text);
+      const q = await getQuote();
+      ctx.reply(
+        `🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${q}`
+      );
+    } catch (err) {
+      logger.error("Daily quote", { message: err });
+      ctx.reply("An unexpected error!");
+    }
+    return;
+  }
+
+  // handle quote
+  if (msg.text === quoteMeKeyWord) {
+    try {
+      const q = await getQuote();
+      ctx.reply(`Quote: ${q}`);
+    } catch (err) {}
+    return;
+  }
+
+  // if nothing, reply
+  await insertUsersMessage(msg.from.username, msg.text);
+  ctx.reply(`THIS IS NO COMMAND!`);
+});

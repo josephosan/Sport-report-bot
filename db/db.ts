@@ -94,6 +94,18 @@ export const getAllUsers = async () => {
   }
 };
 
+export const getOneUserByUsername: (username: number) => Promise<User> = async (
+  username: number
+) => {
+  const query = `SELECT * FROM users WHERE username = '${username}'`;
+  try {
+    const { rows } = await pool.query(query);
+    return rows[0];
+  } catch (err) {
+    logger.error("Fetch user", { message: "Error on Fetch single user", err });
+  }
+};
+
 export const initializeDailyStatus = async () => {
   const query = `
         INSERT INTO status (user_id, date, info)
@@ -173,7 +185,7 @@ export const getAllUsersReports = async () => {
   }
 };
 
-export const insertUsersMessage = async (uId: string, message: string) => {
+export const insertUsersMessage = async (uId: number, message: string) => {
   const query = `
         INSERT INTO messages (user_id, message) 
         VALUES ($1, $2);

@@ -20,6 +20,7 @@ import {
 import {
   getAllUsers,
   getAllUsersReports,
+  getOneUserByUsername,
   getSingleUserReport,
   insertUser,
   insertUsersMessage,
@@ -153,6 +154,7 @@ bot.on("message", async (ctx: any) => {
   }
 
   // if nothing, reply
-  await insertUsersMessage(msg.from.username, msg.text);
+  const userId = (await getOneUserByUsername(msg.from.username)).id;
+  if (userId) await insertUsersMessage(userId, msg.text);
   ctx.reply(`THIS IS NO COMMAND!`);
 });

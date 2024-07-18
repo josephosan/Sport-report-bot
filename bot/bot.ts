@@ -155,6 +155,6 @@ bot.on("message", async (ctx: any) => {
 
   // if nothing, reply
   const userId = (await getOneUserByUsername(msg.from.username)).id;
-  if (userId) await insertUsersMessage(userId, msg.text);
+  if (userId) await insertUsersMessage(userId, msg.from.username, msg.text);
   ctx.reply(`THIS IS NO COMMAND!`);
 });

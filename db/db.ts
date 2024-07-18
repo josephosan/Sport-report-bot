@@ -185,14 +185,18 @@ export const getAllUsersReports = async () => {
   }
 };
 
-export const insertUsersMessage = async (uId: number, message: string) => {
+export const insertUsersMessage = async (
+  uId: number,
+  username,
+  message: string
+) => {
   const query = `
-        INSERT INTO messages (user_id, message) 
-        VALUES ($1, $2);
+        INSERT INTO messages (user_id, username, message) 
+        VALUES ($1, $2, $3);
     `;
 
   try {
-    const { rows } = await pool.query(query, [uId, message]);
+    const { rows } = await pool.query(query, [uId, username, message]);
     return rows;
   } catch (err) {
     logger.error("Catch Error", {

@@ -79,6 +79,11 @@ bot.on("message", async (ctx: any) => {
       const ms = await getUsersMessagesByUsername(uName);
       const prettierMs = ms?.map((item) => item.message).join("\n");
 
+      if (!prettierMs || !prettierMs?.length) {
+        ctx.reply("No message found!");
+        return;
+      }
+
       ctx.replyWithMarkdownV2(escapeMarkdown(prettierMs));
       return;
     }

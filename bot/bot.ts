@@ -61,6 +61,8 @@ bot.help((ctx) => {
 
 bot.on("message", async (ctx: any) => {
   const msg = ctx.update.message;
+
+  logger.info("Info", { message: "message", msg });
   // handling privileged users
   if (privilegedUsernames.includes(msg.from.username)) {
     // get privileged usernames

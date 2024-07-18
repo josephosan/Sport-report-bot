@@ -69,7 +69,14 @@ bot.on("message", async (ctx: any) => {
   if (privilegedUsernames.includes(msg.from.username)) {
     // get users messages
     if (msg.text.includes(getUsersMessagesKeyWord)) {
-      const ms = await getUsersMessagesByUsername(msg.from.username);
+      const uName = msg.text.split(":")[1];
+
+      if (!uName || uName === "") {
+        ctx.reply("No username provided!");
+        return;
+      }
+
+      const ms = await getUsersMessagesByUsername(uName);
       const result = JSON.stringify(ms);
 
       ctx.replyWithMarkdownV2(escapeMarkdown(result));

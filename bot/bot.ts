@@ -77,9 +77,9 @@ bot.on("message", async (ctx: any) => {
       }
 
       const ms = await getUsersMessagesByUsername(uName);
-      const result = JSON.stringify(ms);
+      const prettierMs = ms?.map((item) => item.message).join("\n");
 
-      ctx.replyWithMarkdownV2(escapeMarkdown(result));
+      ctx.replyWithMarkdownV2(escapeMarkdown(prettierMs));
       return;
     }
 

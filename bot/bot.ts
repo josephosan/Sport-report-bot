@@ -130,6 +130,11 @@ bot.on("message", async (ctx: any) => {
         .map((stat) => `${stat.date}: ${stat.info} \n`)
         .join("\n");
 
+      if (!result || !result.length) {
+        ctx.reply("No report found");
+        return;
+      }
+
       ctx.replyWithMarkdownV2(escapeMarkdown(result));
       return;
     }

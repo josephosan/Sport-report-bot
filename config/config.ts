@@ -25,6 +25,7 @@ export const getAllUsersKeyWord = "GET ALL USERS:";
 export const getPrivilegedUsernamesKeyWord = "GET ADMINS:";
 export const quoteMeKeyWord = "QUOTE ME:";
 export const getUsersMessagesKeyWord = "MESSAGES:";
+export const messageToKeyWord = "MESSAGE TO:";
 
 export const repeatMessageTime = "0 17 * * *";
 export const dailyInitTime = "0 1 * * *";

@@ -17,6 +17,7 @@ import {
   getPrivilegedUsernamesKeyWord,
   getUsersMessagesKeyWord,
   quoteMeKeyWord,
+  messageToKeyWord,
 } from "../config/config";
 import {
   getAllUsers,
@@ -153,6 +154,29 @@ bot.on("message", async (ctx: any) => {
 
       ctx.replyWithMarkdownV2(escapeMarkdown(dp));
       return;
+    }
+
+    // message to 
+    if (msg.text.includes(messageToKeyWord)) {
+      const temp = msg.text.split(':')
+      const toUsername = temp[1]
+      const message = temp[2]
+
+      if (!toUsername) {
+        ctx.reply('No username provided!')
+        return
+      }
+
+      if (!message) {
+        ctx.reply('No message provided!')
+        return
+      }
+
+      try {
+        await messageOneUserByUsername(toUsername, message)
+        ctx.reply('Sent!')
+        return
+      } catch (err) { }
     }
   }
 

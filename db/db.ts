@@ -94,8 +94,8 @@ export const getAllUsers = async () => {
   }
 };
 
-export const getOneUserByUsername: (username: number) => Promise<User> = async (
-  username: number
+export const getOneUserByUsername: (username: string) => Promise<User> = async (
+  username: string
 ) => {
   const query = `SELECT * FROM users WHERE username = '${username}'`;
   try {

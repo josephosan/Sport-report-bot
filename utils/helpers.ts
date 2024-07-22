@@ -1,7 +1,7 @@
 import { User } from "../types/types";
 import { logger } from "../log/logger";
 import { api } from "../api/api";
-import { insertUser, getAllUsers } from "../db/db";
+import { insertUser, getAllUsers, getOneUserByUsername } from "../db/db";
 import { dailyQuoteUrl } from "../config/config";
 
 export const getUpdates = async () => {
@@ -40,6 +40,15 @@ export const messageAllUsers = async (message = 'Global') => {
     })
 
     await Promise.all(promises)
+}
+
+export const messageOneUserByUsername = async (uName: string, message: string) => {
+    try {
+        const user = await getOneUserByUsername(uName)
+        if (!user) return
+
+        await api.post(`/sendMessage?chat_id=${user.chat_id}&text=${message}`)
+    } catch (err) { }
 }
 
 export const getMe = async () => {

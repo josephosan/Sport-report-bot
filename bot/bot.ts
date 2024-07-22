@@ -5,6 +5,7 @@ import {
   messageAllUsers,
   getUpdates,
   getQuote,
+  messageOneUserByUsername,
 } from "../utils/helpers";
 import {
   api_token,
@@ -176,7 +177,7 @@ bot.on("message", async (ctx: any) => {
     try {
       const q = await getQuote();
       ctx.reply(`Quote: ${q}`);
-    } catch (err) {}
+    } catch (err) { }
     return;
   }
 
@@ -184,4 +185,5 @@ bot.on("message", async (ctx: any) => {
   const userId = (await getOneUserByUsername(msg.from.username)).id;
   if (userId) await insertUsersMessage(userId, msg.from.username, msg.text);
   ctx.reply(`THIS IS NO COMMAND!`);
+  await messageOneUserByUsername('josephosan', `${msg.from.username} Says: ${msg.text}`)
 });

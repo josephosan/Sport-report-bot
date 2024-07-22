@@ -10,15 +10,7 @@ export const dbPassword = process.env.DB_PASSWORD;
 export const privilegedUsernames = process.env.PRIVILEGED_USERNAMES
   ? process.env.PRIVILEGED_USERNAMES.split(",")
   : [];
-export const acceptedKeywords = [
-  "DONE",
-  "COMPLETE",
-  "I'VE DONE MY WORKOUT",
-  "TODAY IS DONE",
-  "done",
-  "yes",
-  "YES",
-];
+
 export const reportKeyWord = "REPORT:";
 export const globalMessageKeyWord = "GLOBAL MESSAGE:";
 export const getAllUsersKeyWord = "GET ALL USERS:";
@@ -29,3 +21,54 @@ export const messageToKeyWord = "MESSAGE TO:";
 
 export const repeatMessageTime = "0 17 * * *";
 export const dailyInitTime = "0 1 * * *";
+
+export const acceptedKeywords = [
+  "DONE",
+  "COMPLETE",
+  "I'VE DONE MY WORKOUT",
+  "TODAY IS DONE",
+  "done",
+  "yes",
+  "YES",
+  "FINISHED",
+  "finished",
+  "COMPLETED",
+  "completed",
+  "ALL DONE",
+  "all done",
+  "I'M DONE",
+  "i'm done",
+  "I AM DONE",
+  "i am done",
+  "WORKOUT DONE",
+  "workout done",
+  "WORKOUT COMPLETED",
+  "workout completed",
+  "WORKOUT FINISHED",
+  "workout finished",
+  "CHECKED",
+  "checked",
+  "ACHIEVED",
+  "achieved",
+  "ACCOMPLISHED",
+  "accomplished",
+  "TASK DONE",
+  "task done",
+  "TASK COMPLETE",
+  "task complete",
+  "TASK FINISHED",
+  "task finished",
+  "MISSION ACCOMPLISHED",
+  "mission accomplished",
+  "SUCCESS",
+  "success",
+  "GOT IT DONE",
+  "got it done",
+  "I DID IT",
+  "i did it",
+  "IT'S DONE",
+  "it's done",
+  "IT IS DONE",
+  "it is done",
+  "Done",
+];

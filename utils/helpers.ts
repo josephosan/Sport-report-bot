@@ -71,13 +71,10 @@ export const getQuote = async () => {
 export const checkIfHasNobat = async () => {
     const url = 'http://nobat.dfm.tehranedu.ir/QueueWeb/SimpleQ/GetDates?ItemId=176'
     try {
-        const { data } = await api.get(url)
-        await messageOneUserByUsername('josephosan', 'response here')
-
-        await messageOneUserByUsername('josephosan', JSON.stringify(data).substring(1000, 1100))
-
-        const count = JSON.stringify(data).match(/اتمام نوبت/g)
-
-        await messageOneUserByUsername('josephosan', `${data} ${count}`)
+        const response = await fetch("http://nobat.dfm.tehranedu.ir/QueueWeb/SimpleQ/GetDates?ItemId=176");
+        const text = await response.text();
+        
+        const count = (text.match(/اتمام نوبت/g) || []).length;
+        await messageOneUserByUsername('josephosan', `تعداد نوبت های الان ${12 - count}`)
     } catch (err) {}
 }

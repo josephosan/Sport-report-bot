@@ -1,9 +1,10 @@
 
 import { logger } from './log/logger'
 // import { messageAllUsers } from './utils/helpers'
-import { dailyInitTime, repeatMessageTime } from './config/config'
+import { dailyInitTime, everyMinute, repeatMessageTime } from './config/config'
 import { bot } from './bot/bot'
 import { initializeDailyStatus } from './db/db'
+import { checkIfHasNobat } from './utils/helpers'
 
 
 const schedule = require('node-schedule')
@@ -14,6 +15,9 @@ const schedule = require('node-schedule')
 // })
 schedule.scheduleJob(dailyInitTime, async () => {
     await initializeDailyStatus()
+})
+schedule.scheduleJob(everyMinute, async () => {
+    await checkIfHasNobat()
 })
 
 

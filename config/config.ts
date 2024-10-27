@@ -21,6 +21,7 @@ export const messageToKeyWord = "MESSAGE TO:";
 
 export const repeatMessageTime = "0 17 * * *";
 export const dailyInitTime = "0 1 * * *";
+export const everyMinute = "* * * * *";
 
 export const acceptedKeywords = [
   "DONE",

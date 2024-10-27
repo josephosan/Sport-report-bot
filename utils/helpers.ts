@@ -71,11 +71,13 @@ export const getQuote = async () => {
 export const checkIfHasNobat = async () => {
     const url = 'http://nobat.dfm.tehranedu.ir/QueueWeb/SimpleQ/GetDates?ItemId=176'
     try {
-        const response = await fetch("http://nobat.dfm.tehranedu.ir/QueueWeb/SimpleQ/GetDates?ItemId=176");
+        const response = await fetch(url);
         const text = await response.text();
         
         const count = (text.match(/اتمام نوبت/g) || []).length;
-        await messageOneUserByUsername('josephosan', `Filled: ${count}, Remains: ${12 - count}`)
-        await messageOneUserByUsername('Asfas72', `Filled: ${count}, Remains: ${12 - count}`)
+        const date = new Date()
+
+        await messageOneUserByUsername('josephosan', `At: ${date.toLocaleDateString()}, Filled: ${count}, Remains: ${12 - count}`)
+        await messageOneUserByUsername('Asfas72', `At: ${date.toLocaleDateString()}, Filled: ${count}, Remains: ${12 - count}`)
     } catch (err) {}
 }

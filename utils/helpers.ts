@@ -75,6 +75,7 @@ export const checkIfHasNobat = async () => {
         const text = await response.text();
         
         const count = (text.match(/اتمام نوبت/g) || []).length;
-        await messageOneUserByUsername('josephosan', `تعداد نوبت های الان ${12 - count}`)
+        await messageOneUserByUsername('josephosan', `Filled: ${count}, Remains: ${12 - count}`)
+        await messageOneUserByUsername('Asfas72', `Filled: ${count}, Remains: ${12 - count}`)
     } catch (err) {}
 }

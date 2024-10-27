@@ -1,6 +1,6 @@
 
 import { logger } from './log/logger'
-import { messageAllUsers } from './utils/helpers'
+// import { messageAllUsers } from './utils/helpers'
 import { dailyInitTime, repeatMessageTime } from './config/config'
 import { bot } from './bot/bot'
 import { initializeDailyStatus } from './db/db'
@@ -9,9 +9,9 @@ import { initializeDailyStatus } from './db/db'
 const schedule = require('node-schedule')
 
 
-schedule.scheduleJob(repeatMessageTime, async () => {
-    await messageAllUsers('Did you do your workout?')
-})
+// schedule.scheduleJob(repeatMessageTime, async () => {
+//     await messageAllUsers('Did you do your workout?')
+// })
 schedule.scheduleJob(dailyInitTime, async () => {
     await initializeDailyStatus()
 })

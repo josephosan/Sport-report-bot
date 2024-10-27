@@ -6,6 +6,7 @@ import {
   getUpdates,
   getQuote,
   messageOneUserByUsername,
+  checkIfHasNobat,
 } from "../utils/helpers";
 import {
   api_token,
@@ -177,6 +178,11 @@ bot.on("message", async (ctx: any) => {
         ctx.reply('Sent!')
         return
       } catch (err) { }
+    }
+
+    // has nobat
+    if (msg.text.includes('NOBAT')) {
+      checkIfHasNobat()
     }
 
     ctx.reply(`THIS IS NO COMMAND!`);

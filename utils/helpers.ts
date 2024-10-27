@@ -66,3 +66,14 @@ export const escapeMarkdown = (text) => {
 export const getQuote = async () => {
     return (await api.get(dailyQuoteUrl)).data.quote.body
 }
+
+// customized
+export const checkIfHasNobat = async () => {
+    const url = 'http://nobat.dfm.tehranedu.ir/QueueWeb/SimpleQ/GetDates?ItemId=176'
+    try {
+        const res = await fetch(url)
+        const jsonRes = res.json()
+        const count = JSON.stringify(jsonRes).match(/اتمام نوبت/g)
+        await messageOneUserByUsername('josephosan', `${count} hi`)
+    } catch (err) {}
+}

@@ -74,10 +74,10 @@ export const checkIfHasNobat = async () => {
         const { data } = await api.get(url)
         await messageOneUserByUsername('josephosan', 'response here')
 
-        await messageOneUserByUsername('josephosan', JSON.stringify(data).substring(0, 100))
+        await messageOneUserByUsername('josephosan', JSON.stringify(data).substring(1000, 1100))
 
         const count = JSON.stringify(data).match(/اتمام نوبت/g)
-        
+
         await messageOneUserByUsername('josephosan', `${data} ${count}`)
     } catch (err) {}
 }

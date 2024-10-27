@@ -80,9 +80,7 @@ export const checkIfHasNobat = async () => {
         if (count < 12) {
             await messageOneUserByUsername('josephosan', `At: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}, Filled: ${count}, Remains: ${12 - count}`)
             await messageOneUserByUsername('Asfas72', `At: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}, Filled: ${count}, Remains: ${12 - count}`)
-        } else {
-            await messageOneUserByUsername('josephosan', `At: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}, Filled: ${count}, Remains: ${12 - count}`)
-        }
+        } 
     } catch (err) {}
 }
 

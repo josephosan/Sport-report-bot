@@ -77,7 +77,7 @@ export const checkIfHasNobat = async () => {
         const count = (text.match(/اتمام نوبت/g) || []).length;
         const date = new Date()
 
-        await messageOneUserByUsername('josephosan', `At: ${date.toLocaleDateString()}, Filled: ${count}, Remains: ${12 - count}`)
-        await messageOneUserByUsername('Asfas72', `At: ${date.toLocaleDateString()}, Filled: ${count}, Remains: ${12 - count}`)
+        await messageOneUserByUsername('josephosan', `At: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}, Filled: ${count}, Remains: ${12 - count}`)
+        await messageOneUserByUsername('Asfas72', `At: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}, Filled: ${count}, Remains: ${12 - count}`)
     } catch (err) {}
 }

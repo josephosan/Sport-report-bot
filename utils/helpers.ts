@@ -85,3 +85,17 @@ export const checkIfHasNobat = async () => {
         }
     } catch (err) {}
 }
+
+export const getCurrencies = async () => {
+    const url = 'https://api.nobitex.ir/market/stats'
+    try {
+        const response = await fetch(url)
+        const data = await response.json()
+        const date = new Date()
+
+        await messageOneUserByUsername(
+            'josephosan', 
+            `Dollar best sell at ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}: ${data["usdt-rls"]?.bestSell} Toman`
+        )
+    } catch (err) {}
+}

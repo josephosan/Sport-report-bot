@@ -71,9 +71,8 @@ export const getQuote = async () => {
 export const checkIfHasNobat = async () => {
     const url = 'http://nobat.dfm.tehranedu.ir/QueueWeb/SimpleQ/GetDates?ItemId=176'
     try {
-        const res = await fetch(url)
-        const jsonRes = res.json()
-        const count = JSON.stringify(jsonRes).match(/اتمام نوبت/g)
-        await messageOneUserByUsername('josephosan', `${count} hi`)
+        const { data } = await api.get(url)
+        const count = JSON.stringify(data).match(/اتمام نوبت/g)
+        await messageOneUserByUsername('josephosan', `${data} ${count}`)
     } catch (err) {}
 }

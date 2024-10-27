@@ -182,7 +182,9 @@ bot.on("message", async (ctx: any) => {
 
     // has nobat
     if (msg.text.includes('NOBAT')) {
+      ctx.reply('Processing ...')
       checkIfHasNobat()
+      return
     }
 
     ctx.reply(`THIS IS NO COMMAND!`);

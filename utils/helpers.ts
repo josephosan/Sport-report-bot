@@ -95,7 +95,7 @@ export const getCurrencies = async () => {
 
         await messageOneUserByUsername(
             'josephosan', 
-            `Dollar best sell at ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}: ${data["stats"]["usdt-rls"]?.bestSell} Toman`
+            `Dollar best sell at ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}: ${data["stats"]["usdt-rls"]?.bestSell.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
         )
     } catch (err) {}
 }

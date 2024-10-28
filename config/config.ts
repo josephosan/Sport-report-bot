@@ -18,6 +18,7 @@ export const getPrivilegedUsernamesKeyWord = "GET ADMINS:";
 export const quoteMeKeyWord = "QUOTE ME:";
 export const getUsersMessagesKeyWord = "MESSAGES:";
 export const messageToKeyWord = "MESSAGE TO:";
+export const setDailyCurrencyCronJobStringKeyWord = "DAILY CURRENCY CRON:"
 
 export const repeatMessageTime = "0 17 * * *";
 export const dailyInitTime = "0 1 * * *";

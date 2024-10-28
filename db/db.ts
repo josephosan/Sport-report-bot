@@ -206,6 +206,23 @@ export const insertUsersMessage = async (
   }
 };
 
+export const setDailyCurrencyCronString = async (userId: number, cron: string) => {
+  const query = `
+    INSERT INTO settings (daily_currency_job_cron, user_id)
+    VALUES ($1, $2)
+  `
+
+  try {
+    const { rows } = await pool.query(query, [cron, userId]);
+    return rows;
+  } catch (err) {
+    logger.error("Catch Error on setting daily cron, on query", {
+      message: `Failed to add cron for user ${userId} with cron ${cron}`,
+      err
+    })
+  }
+}
+
 export const getUsersMessagesByUsername: (
   username: string
 ) => Promise<any[] | undefined> = async (username: string) => {
@@ -223,3 +240,39 @@ export const getUsersMessagesByUsername: (
     });
   }
 };
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                              database creation                             */
+/* -------------------------------------------------------------------------- */
+/*
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    chat_id BIGINT,
+    is_bot BOOLEAN DEFAULT FALSE,
+    language_code VARCHAR(10)
+);
+CREATE TABLE status (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    date DATE NOT NULL,
+    info VARCHAR(255),
+    UNIQUE (user_id, date),
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    username VARCHAR(255) NOT NULL,
+    message TEXT,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+CREATE TABLE settings (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    daily_currency_job_cron VARCHAR(255)
+);
+*/

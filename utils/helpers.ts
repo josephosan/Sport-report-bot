@@ -67,7 +67,14 @@ export const getQuote = async () => {
     return (await api.get(dailyQuoteUrl)).data.quote.body
 }
 
-// customized
+export const validatedUsersRequestedCronString = (cron: string) => {
+    const cronTimingRegex = /^(\*|([0-5]?\d))(\/[1-5]?\d)?\s+(\*|([01]?\d|2[0-3]))(\/[1-5]?\d)?\s+(\*|([01]?\d|2[0-3]))(\/[1-5]?\d)?\s+(\*|(1[0-2]|0?[1-9]))(\/[1-2]?\d)?\s+(\*|([0-6]|7))$/;
+    return cronTimingRegex.test(cron)
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 customized                                 */
+/* -------------------------------------------------------------------------- */
 export const checkIfHasNobat = async () => {
     const url = 'http://nobat.dfm.tehranedu.ir/QueueWeb/SimpleQ/GetDates?ItemId=176'
     try {
@@ -96,8 +103,7 @@ export const getCurrencies = async () => {
         await messageAllUsers( 
             `
                 At ${date.toLocaleDateString()} ${date.toLocaleTimeString()} \n
-                Dollar best sell: ${stats["usdt-rls"]?.bestSell.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} \n
-                TRX best sell: ${stats["trx-usdt"]?.bestSell} \n
+                Dollar best sell: ${stats["usdt-rls"]?.bestSell.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} RLS
             `
         )
     } catch (err) {}

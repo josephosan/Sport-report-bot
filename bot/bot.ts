@@ -7,6 +7,7 @@ import {
   getQuote,
   messageOneUserByUsername,
   checkIfHasNobat,
+  validatedUsersRequestedCronString,
 } from "../utils/helpers";
 import {
   api_token,
@@ -19,6 +20,7 @@ import {
   getUsersMessagesKeyWord,
   quoteMeKeyWord,
   messageToKeyWord,
+  setDailyCurrencyCronJobStringKeyWord,
 } from "../config/config";
 import {
   getAllUsers,
@@ -28,6 +30,7 @@ import {
   getUsersMessagesByUsername,
   insertUser,
   insertUsersMessage,
+  setDailyCurrencyCronString,
   updateUsersDailyState,
 } from "../db/db";
 import { api } from "../api/api";
@@ -184,6 +187,25 @@ bot.on("message", async (ctx: any) => {
     if (msg.text.includes('NOBAT')) {
       ctx.reply('Processing ...')
       checkIfHasNobat()
+      return
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                                  settings                                  */
+    /* -------------------------------------------------------------------------- */
+    // set currency cron
+    if (msg.text.includes(setDailyCurrencyCronJobStringKeyWord)) {
+      const senderUsername = ctx.from.username
+      const _cron = msg.split(setDailyCurrencyCronJobStringKeyWord)[1]
+      const { id } = await getOneUserByUsername(senderUsername)
+
+      if (!validatedUsersRequestedCronString(_cron)) {
+        ctx.reply('Please enter a valid cron')
+        return
+      }
+
+      await setDailyCurrencyCronString(id as number, _cron)
+      ctx.reply('Successfully updated!')
       return
     }
 

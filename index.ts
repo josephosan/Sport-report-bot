@@ -1,7 +1,7 @@
 
 import { logger } from './log/logger'
 // import { messageAllUsers } from './utils/helpers'
-import { dailyInitTime, everyMinute, repeatMessageTime } from './config/config'
+import { dailyInitTime, everyMinute, repeatMessageTime, everyDayAtTen } from './config/config'
 import { bot } from './bot/bot'
 import { initializeDailyStatus } from './db/db'
 import { checkIfHasNobat, getCurrencies } from './utils/helpers'
@@ -16,7 +16,7 @@ const schedule = require('node-schedule')
 schedule.scheduleJob(dailyInitTime, async () => {
     await initializeDailyStatus()
 })
-schedule.scheduleJob(everyMinute, async () => {
+schedule.scheduleJob(everyDayAtTen, async () => {
     await checkIfHasNobat()
     await getCurrencies()
 })

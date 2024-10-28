@@ -17,8 +17,10 @@ schedule.scheduleJob(dailyInitTime, async () => {
     await initializeDailyStatus()
 })
 schedule.scheduleJob(everyDayAtTen, async () => {
-    await checkIfHasNobat()
     await getCurrencies()
+})
+schedule.scheduleJob(everyMinute, async () => {
+    await checkIfHasNobat()
 })
 
 

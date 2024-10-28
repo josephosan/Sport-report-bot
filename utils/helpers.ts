@@ -93,12 +93,11 @@ export const getCurrencies = async () => {
 
         const stats = data["stats"]
 
-        await messageOneUserByUsername(
-            'josephosan', 
+        await messageAllUsers( 
             `
                 At ${date.toLocaleDateString()} ${date.toLocaleTimeString()} \n
                 Dollar best sell: ${stats["usdt-rls"]?.bestSell.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} \n
-                TRX best sell: ${stats["trx-usdt"]?.bestSell.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} \n
+                TRX best sell: ${stats["trx-usdt"]?.bestSell} \n
             `
         )
     } catch (err) {}

@@ -10,17 +10,11 @@ import { checkIfHasNobat, getCurrencies } from './utils/helpers'
 const schedule = require('node-schedule')
 
 
-// schedule.scheduleJob(repeatMessageTime, async () => {
-//     await messageAllUsers('Did you do your workout?')
-// })
 schedule.scheduleJob(dailyInitTime, async () => {
     await initializeDailyStatus()
 })
 schedule.scheduleJob(everyDayAtTen, async () => {
     await getCurrencies()
-})
-schedule.scheduleJob(everyMinute, async () => {
-    await checkIfHasNobat()
 })
 
 

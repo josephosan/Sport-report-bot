@@ -225,12 +225,14 @@ bot.on('message', async (ctx: any) => {
 
     logger.info('Ai, user messages', { message: prettierMs });
 
-    const res = await basicPrompt(
-      msg,
-      msg.from.username,
-      escapeMarkdown(prettierMs)
-    );
-    ctx.reply(res);
+    ctx.reply(escapeMarkdown(prettierMs));
+
+    // const res = await basicPrompt(
+    //   msg,
+    //   msg.from.username,
+    //   escapeMarkdown(prettierMs)
+    // );
+    // ctx.reply(res);
     return;
   }
 

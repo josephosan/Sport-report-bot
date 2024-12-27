@@ -223,7 +223,13 @@ bot.on('message', async (ctx: any) => {
     const ms = await getUsersMessagesByUsername(msg.from.username);
     const prettierMs = ms?.map((item) => item.message).join('\n') || 'noMSG';
 
-    const res = await basicPrompt(msg, msg.from.username, prettierMs);
+    logger.info('Ai, user messages', { message: prettierMs });
+
+    const res = await basicPrompt(
+      msg,
+      msg.from.username,
+      escapeMarkdown(prettierMs)
+    );
     ctx.reply(res);
     return;
   }

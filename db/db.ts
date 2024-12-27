@@ -1,12 +1,12 @@
-import { Pool } from "pg";
-import { User } from "../types/types";
-import { logger } from "../log/logger";
-import { dbPassword, dbUser } from "../config/config";
+import { Pool } from 'pg';
+import { User } from '../types/types';
+import { logger } from '../log/logger';
+import { dbPassword, dbUser } from '../config/config';
 
 const pool = new Pool({
   user: dbUser,
-  host: "localhost",
-  database: "sportreport",
+  host: 'localhost',
+  database: 'sportreport',
   password: dbPassword,
   port: 5432,
 });
@@ -22,11 +22,11 @@ export const insertUser = async (user: User) => {
   }
 
   if (sameUser) {
-    logger.warn("User exists", { message: "This user already exists on db!" });
+    logger.warn('User exists', { message: 'This user already exists on db!' });
     return;
   }
 
-  logger.info("New User", user);
+  logger.info('New User', user);
 
   const query = `
         INSERT INTO users (username, chat_id, is_bot, language_code)
@@ -42,13 +42,13 @@ export const insertUser = async (user: User) => {
       user.language_code,
     ]);
   } catch (err) {
-    logger.error("Catch Error", err);
+    logger.error('Catch Error', err);
   }
 };
 
 export const insertUsersDailyInfo = async (user: User, info: string) => {
   try {
-    const date = new Date().toISOString().split("T")[0];
+    const date = new Date().toISOString().split('T')[0];
     const insertQuery = `
         INSERT INTO status (user_id, date, info)
         VALUES ($1, $2, $3)
@@ -57,13 +57,13 @@ export const insertUsersDailyInfo = async (user: User, info: string) => {
         `;
     const { rows } = await pool.query(insertQuery, [user.id, date, info]);
   } catch (err) {
-    logger.error("Catch Error", { message: err.message });
+    logger.error('Catch Error', { message: err.message });
   }
 };
 
 export const updateUsersDailyState = async (
   username: string,
-  info = "Done"
+  info = 'Done'
 ) => {
   let userData: User | undefined = undefined;
   const getUserQuery = `SELECT * FROM users WHERE username = '${username}'`;
@@ -72,11 +72,11 @@ export const updateUsersDailyState = async (
     const { rows } = await pool.query(getUserQuery);
     userData = rows[0];
   } catch (err) {
-    logger.error("Catch Error", { message: err.message });
+    logger.error('Catch Error', { message: err.message });
   }
 
   if (!userData) {
-    logger.warn("USER NOT FOUND", { message: "requested user not found!" });
+    logger.warn('USER NOT FOUND', { message: 'requested user not found!' });
     return;
   }
 
@@ -86,11 +86,11 @@ export const updateUsersDailyState = async (
 
 export const getAllUsers = async () => {
   try {
-    const getAllQuery = "SELECT * FROM users";
+    const getAllQuery = 'SELECT * FROM users';
     const { rows } = await pool.query(getAllQuery);
     return rows;
   } catch (err) {
-    logger.error("Catch Error", err.message);
+    logger.error('Catch Error', err.message);
   }
 };
 
@@ -102,7 +102,7 @@ export const getOneUserByUsername: (username: string) => Promise<User> = async (
     const { rows } = await pool.query(query);
     return rows[0];
   } catch (err) {
-    logger.error("Fetch user", { message: "Error on Fetch single user", err });
+    logger.error('Fetch user', { message: 'Error on Fetch single user', err });
   }
 };
 
@@ -117,12 +117,12 @@ export const initializeDailyStatus = async () => {
   try {
     const { rows } = await pool.query(query);
   } catch (err) {
-    logger.error("Catch Error", err.message);
+    logger.error('Catch Error', err.message);
   }
 };
 
 export const getSingleUserReport = async (username: string) => {
-  if (!username || username === "") return [];
+  if (!username || username === '') return [];
 
   const query = `
         SELECT 
@@ -150,7 +150,7 @@ export const getSingleUserReport = async (username: string) => {
     const { rows } = await pool.query(query);
     return rows[0];
   } catch (err) {
-    logger.error("Catch Error", err);
+    logger.error('Catch Error', err);
   }
 };
 
@@ -181,7 +181,7 @@ export const getAllUsersReports = async () => {
     const { rows } = await pool.query(query);
     return rows;
   } catch (err) {
-    logger.error("Catch Error", err);
+    logger.error('Catch Error', err);
   }
 };
 
@@ -199,29 +199,32 @@ export const insertUsersMessage = async (
     const { rows } = await pool.query(query, [uId, username, message]);
     return rows;
   } catch (err) {
-    logger.error("Catch Error", {
-      message: "Failed to insert users message",
+    logger.error('Catch Error', {
+      message: 'Failed to insert users message',
       err,
     });
   }
 };
 
-export const setDailyCurrencyCronString = async (userId: number, cron: string) => {
+export const setDailyCurrencyCronString = async (
+  userId: number,
+  cron: string
+) => {
   const query = `
     INSERT INTO settings (daily_currency_job_cron, user_id)
     VALUES ($1, $2)
-  `
+  `;
 
   try {
     const { rows } = await pool.query(query, [cron, userId]);
     return rows;
   } catch (err) {
-    logger.error("Catch Error on setting daily cron, on query", {
+    logger.error('Catch Error on setting daily cron, on query', {
       message: `Failed to add cron for user ${userId} with cron ${cron}`,
-      err
-    })
+      err,
+    });
   }
-}
+};
 
 export const getUsersMessagesByUsername: (
   username: string
@@ -234,14 +237,12 @@ export const getUsersMessagesByUsername: (
     const { rows } = await pool.query(query);
     return rows;
   } catch (err) {
-    logger.error("Users messages", {
-      message: "Failed to get users messages",
+    logger.error('Users messages', {
+      message: 'Failed to get users messages',
       err,
     });
   }
 };
-
-
 
 /* -------------------------------------------------------------------------- */
 /*                              database creation                             */

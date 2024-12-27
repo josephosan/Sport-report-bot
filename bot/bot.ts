@@ -1,5 +1,5 @@
-import { Telegraf } from "telegraf";
-import { logger } from "../log/logger";
+import { Telegraf } from 'telegraf';
+import { logger } from '../log/logger';
 import {
   escapeMarkdown,
   messageAllUsers,
@@ -8,7 +8,7 @@ import {
   messageOneUserByUsername,
   checkIfHasNobat,
   validatedUsersRequestedCronString,
-} from "../utils/helpers";
+} from '../utils/helpers';
 import {
   api_token,
   privilegedUsernames,
@@ -21,7 +21,7 @@ import {
   quoteMeKeyWord,
   messageToKeyWord,
   setDailyCurrencyCronJobStringKeyWord,
-} from "../config/config";
+} from '../config/config';
 import {
   getAllUsers,
   getAllUsersReports,
@@ -32,16 +32,16 @@ import {
   insertUsersMessage,
   setDailyCurrencyCronString,
   updateUsersDailyState,
-} from "../db/db";
-import { api } from "../api/api";
+} from '../db/db';
+import { api } from '../api/api';
 
-if (!api_token) logger.error("NO Api Token", { message: "no api token!" });
+if (!api_token) logger.error('NO Api Token', { message: 'no api token!' });
 export const bot = new Telegraf(api_token as string);
 
 bot.start(async (ctx: any) => {
   await insertUser({ ...ctx.update.message.from });
-  logger.info("Bot start", { username: ctx.update.message.from.username });
-  ctx.reply("Hi! Welcome.");
+  logger.info('Bot start', { username: ctx.update.message.from.username });
+  ctx.reply('Hi! Welcome.');
 });
 
 bot.help((ctx) => {
@@ -67,26 +67,26 @@ bot.help((ctx) => {
   ctx.replyWithMarkdownV2(escapeMarkdown(replyText));
 });
 
-bot.on("message", async (ctx: any) => {
+bot.on('message', async (ctx: any) => {
   const msg = ctx.update.message;
 
-  logger.info("Info", { message: "message", msg });
+  logger.info('Info', { message: 'message', msg });
   // handling privileged users
   if (privilegedUsernames.includes(msg.from.username)) {
     // get users messages
     if (msg.text.includes(getUsersMessagesKeyWord)) {
-      const uName = msg.text.split(":")[1];
+      const uName = msg.text.split(':')[1];
 
-      if (!uName || uName === "") {
-        ctx.reply("No username provided!");
+      if (!uName || uName === '') {
+        ctx.reply('No username provided!');
         return;
       }
 
       const ms = await getUsersMessagesByUsername(uName);
-      const prettierMs = ms?.map((item) => item.message).join("\n");
+      const prettierMs = ms?.map((item) => item.message).join('\n');
 
       if (!prettierMs || !prettierMs?.length) {
-        ctx.reply("No message found!");
+        ctx.reply('No message found!');
         return;
       }
 
@@ -110,11 +110,11 @@ bot.on("message", async (ctx: any) => {
 
     // handle getting reports
     if (msg.text.includes(reportKeyWord)) {
-      ctx.reply("preparing ...");
+      ctx.reply('preparing ...');
       const uName = msg.text.split(reportKeyWord)[1];
 
       // get all users reports
-      if (!uName || uName === "") {
+      if (!uName || uName === '') {
         const usersReports = await getAllUsersReports();
 
         const dc = JSON.stringify(usersReports);
@@ -126,18 +126,18 @@ bot.on("message", async (ctx: any) => {
       const data = await getSingleUserReport(uName);
 
       if (!data) {
-        ctx.reply("No such user");
+        ctx.reply('No such user');
         return;
       }
 
-      let result = "";
+      let result = '';
 
       result = data.statuses
         .map((stat) => `${stat.date}: ${stat.info} \n`)
-        .join("\n");
+        .join('\n');
 
       if (!result || !result.length) {
-        ctx.reply("No report found");
+        ctx.reply('No report found');
         return;
       }
 
@@ -150,7 +150,7 @@ bot.on("message", async (ctx: any) => {
       const allUsers = await getAllUsers();
 
       if (!allUsers || !allUsers.length) {
-        ctx.reply("No user in DB!");
+        ctx.reply('No user in DB!');
         return;
       }
 
@@ -160,34 +160,34 @@ bot.on("message", async (ctx: any) => {
       return;
     }
 
-    // message to 
+    // message to
     if (msg.text.includes(messageToKeyWord)) {
-      const temp = msg.text.split(':')
-      const toUsername = temp[1]
-      const message = temp[2]
+      const temp = msg.text.split(':');
+      const toUsername = temp[1];
+      const message = temp[2];
 
       if (!toUsername) {
-        ctx.reply('No username provided!')
-        return
+        ctx.reply('No username provided!');
+        return;
       }
 
       if (!message) {
-        ctx.reply('No message provided!')
-        return
+        ctx.reply('No message provided!');
+        return;
       }
 
       try {
-        await messageOneUserByUsername(toUsername, message)
-        ctx.reply('Sent!')
-        return
-      } catch (err) { }
+        await messageOneUserByUsername(toUsername, message);
+        ctx.reply('Sent!');
+        return;
+      } catch (err) {}
     }
 
     // has nobat
     if (msg.text.includes('NOBAT')) {
-      ctx.reply('Processing ...')
-      checkIfHasNobat()
-      return
+      ctx.reply('Processing ...');
+      checkIfHasNobat();
+      return;
     }
 
     /* -------------------------------------------------------------------------- */
@@ -195,18 +195,18 @@ bot.on("message", async (ctx: any) => {
     /* -------------------------------------------------------------------------- */
     // set currency cron
     if (msg.text.includes(setDailyCurrencyCronJobStringKeyWord)) {
-      const senderUsername = ctx.from.username
-      const _cron = msg.split(setDailyCurrencyCronJobStringKeyWord)[1]
-      const { id } = await getOneUserByUsername(senderUsername)
+      const senderUsername = ctx.from.username;
+      const _cron = msg.split(setDailyCurrencyCronJobStringKeyWord)[1];
+      const { id } = await getOneUserByUsername(senderUsername);
 
       if (!validatedUsersRequestedCronString(_cron)) {
-        ctx.reply('Please enter a valid cron')
-        return
+        ctx.reply('Please enter a valid cron');
+        return;
       }
 
-      await setDailyCurrencyCronString(id as number, _cron)
-      ctx.reply('Successfully updated!')
-      return
+      await setDailyCurrencyCronString(id as number, _cron);
+      ctx.reply('Successfully updated!');
+      return;
     }
 
     ctx.reply(`THIS IS NO COMMAND!`);
@@ -215,15 +215,15 @@ bot.on("message", async (ctx: any) => {
   // handle workout done
   if (acceptedKeywords.includes(msg.text)) {
     try {
-      ctx.reply("Processing ...");
+      ctx.reply('Processing ...');
       await updateUsersDailyState(msg.from.username, msg.text);
       const q = await getQuote();
       ctx.reply(
         `🏋️‍♂️ GOOD JOB. YOUR CHANGES ARE SAVED! \n Quote of the day: ${q}`
       );
     } catch (err) {
-      logger.error("Daily quote", { message: err });
-      ctx.reply("An unexpected error!");
+      logger.error('Daily quote', { message: err });
+      ctx.reply('An unexpected error!');
     }
     return;
   }
@@ -233,12 +233,15 @@ bot.on("message", async (ctx: any) => {
     try {
       const q = await getQuote();
       ctx.reply(`Quote: ${q}`);
-    } catch (err) { }
+    } catch (err) {}
     return;
   }
 
   // if nothing, reply
   const userId = (await getOneUserByUsername(msg.from.username)).id;
   if (userId) await insertUsersMessage(userId, msg.from.username, msg.text);
-  await messageOneUserByUsername('josephosan', `${msg.from.username} Says: ${msg.text}`)
+  await messageOneUserByUsername(
+    'josephosan',
+    `${msg.from.username} Says: ${msg.text}`
+  );
 });

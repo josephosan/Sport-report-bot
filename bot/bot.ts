@@ -252,7 +252,7 @@ bot.on('message', async (ctx: any) => {
   logger.info('Ai, user messages', { message: prettierMs });
 
   const res = await basicPrompt(
-    msg,
+    msg.text,
     msg.from.username,
     JSON.stringify(prettierMs)
   );

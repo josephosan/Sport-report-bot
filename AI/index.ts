@@ -12,7 +12,7 @@ export const basicPrompt = async (
   prevMessages: string
 ) => {
   logger.info('prev messages', { message: prevMessages });
-  const prompt = `${ai_base_prompt} \n ${userName} says: ${p}`;
+  const prompt = `${ai_base_prompt} \n ${userName} says: ${p} \n and prev messages are: ${prevMessages}`;
   try {
     const result = await model.generateContent(prompt);
     return result.response.text();

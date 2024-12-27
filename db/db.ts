@@ -206,6 +206,43 @@ export const insertUsersMessage = async (
   }
 };
 
+export const insertUserMessageAndReturnUserId = async (
+  username: string,
+  message: string
+): Promise<number | undefined> => {
+  const getUserQuery = `SELECT id FROM users WHERE username = '${username}'`;
+  let userId: number | undefined;
+
+  try {
+    const { rows } = await pool.query(getUserQuery);
+    if (rows.length === 0) {
+      logger.warn('User not found', { message: `User ${username} not found` });
+      return;
+    }
+    userId = rows[0].id;
+  } catch (err) {
+    logger.error('Fetch user ID', { message: 'Error fetching user ID', err });
+    return;
+  }
+
+  const insertMessageQuery = `
+    INSERT INTO messages (user_id, username, message) 
+    VALUES ($1, $2, $3)
+    RETURNING user_id;
+  `;
+
+  try {
+    const { rows } = await pool.query(insertMessageQuery, [
+      userId,
+      username,
+      message,
+    ]);
+    return rows[0].user_id;
+  } catch (err) {
+    logger.error('Insert message', { message: 'Error inserting message', err });
+  }
+};
+
 export const setDailyCurrencyCronString = async (
   userId: number,
   cron: string

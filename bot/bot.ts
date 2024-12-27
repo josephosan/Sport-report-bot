@@ -29,6 +29,7 @@ import {
   getSingleUserReport,
   getUsersMessagesByUsername,
   insertUser,
+  insertUserMessageAndReturnUserId,
   insertUsersMessage,
   setDailyCurrencyCronString,
   updateUsersDailyState,
@@ -70,6 +71,11 @@ bot.help((ctx) => {
 
 bot.on('message', async (ctx: any) => {
   const msg = ctx.update.message;
+
+  const _userId = await insertUserMessageAndReturnUserId(
+    msg.from.username,
+    msg.text
+  );
 
   logger.info('Info', { message: 'message', msg });
   // handling privileged users
@@ -214,7 +220,10 @@ bot.on('message', async (ctx: any) => {
     /*                                ai generated                                */
     /* -------------------------------------------------------------------------- */
     ctx.reply('Asking ai ...');
-    const res = await basicPrompt(msg);
+    const ms = await getUsersMessagesByUsername(msg.from.username);
+    const prettierMs = ms?.map((item) => item.message).join('\n') || 'noMSG';
+
+    const res = await basicPrompt(msg, msg.from.username, prettierMs);
     ctx.reply(res);
     return;
   }
@@ -243,12 +252,4 @@ bot.on('message', async (ctx: any) => {
     } catch (err) {}
     return;
   }
-
-  // if nothing, reply
-  const userId = (await getOneUserByUsername(msg.from.username)).id;
-  if (userId) await insertUsersMessage(userId, msg.from.username, msg.text);
-  await messageOneUserByUsername(
-    'josephosan',
-    `${msg.from.username} Says: ${msg.text}`
-  );
 });

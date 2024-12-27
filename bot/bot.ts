@@ -34,6 +34,7 @@ import {
   updateUsersDailyState,
 } from '../db/db';
 import { api } from '../api/api';
+import { basicPrompt } from '../AI';
 
 if (!api_token) logger.error('NO Api Token', { message: 'no api token!' });
 export const bot = new Telegraf(api_token as string);
@@ -209,7 +210,13 @@ bot.on('message', async (ctx: any) => {
       return;
     }
 
-    ctx.reply(`THIS IS NO COMMAND!`);
+    /* -------------------------------------------------------------------------- */
+    /*                                ai generated                                */
+    /* -------------------------------------------------------------------------- */
+    ctx.reply('Asking ai ...');
+    const res = await basicPrompt(msg);
+    ctx.reply(res);
+    return;
   }
 
   // handle workout done

@@ -6,6 +6,7 @@ export const api_token = process.env.API_TOKEN;
 export const baseURL = `https://api.telegram.org/bot${api_token}/`;
 export const dbUser = process.env.DB_USER;
 export const dbPassword = process.env.DB_PASSWORD;
+export const ai_api_token = process.env.AI_API_KEY;
 
 export const privilegedUsernames = process.env.PRIVILEGED_USERNAMES
   ? process.env.PRIVILEGED_USERNAMES.split(',')
@@ -76,3 +77,11 @@ export const acceptedKeywords = [
   'it is done',
   'Done',
 ];
+
+export const ai_base_prompt = `
+You are an AI assistant. Your task is to provide specific and accurate information based on the user's query. Follow these instructions:
+
+1. Be specific and concise in your responses.
+2. If you encounter HTML content, disregard it and do not include it in your response.
+3. If you see a URL, use a web scraping tool to fetch the content of the website and return the relevant information to the user.
+`;

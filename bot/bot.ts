@@ -77,6 +77,11 @@ bot.on('message', async (ctx: any) => {
     msg.text
   );
 
+  if (!_userId) {
+    await insertUser({ ...ctx.update.message.from });
+    logger.info('Insert User', { username: ctx.update.message.from.username });
+  }
+
   logger.info('Info', { message: 'message', msg });
   // handling privileged users
   if (privilegedUsernames.includes(msg.from.username)) {

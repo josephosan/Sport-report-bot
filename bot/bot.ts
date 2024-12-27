@@ -215,23 +215,6 @@ bot.on('message', async (ctx: any) => {
       ctx.reply('Successfully updated!');
       return;
     }
-
-    /* -------------------------------------------------------------------------- */
-    /*                                ai generated                                */
-    /* -------------------------------------------------------------------------- */
-    ctx.reply('Asking ai ...');
-    const ms = await getUsersMessagesByUsername(msg.from.username);
-    const prettierMs = ms?.map((item) => item.message).join('\n') || 'noMSG';
-
-    logger.info('Ai, user messages', { message: prettierMs });
-
-    const res = await basicPrompt(
-      msg,
-      msg.from.username,
-      JSON.stringify(escapeMarkdown(prettierMs))
-    );
-    ctx.reply(res);
-    return;
   }
 
   // handle workout done
@@ -258,4 +241,21 @@ bot.on('message', async (ctx: any) => {
     } catch (err) {}
     return;
   }
+
+  /* -------------------------------------------------------------------------- */
+  /*                                ai generated                                */
+  /* -------------------------------------------------------------------------- */
+  ctx.reply('Asking ai ...');
+  const ms = await getUsersMessagesByUsername(msg.from.username);
+  const prettierMs = ms?.map((item) => item.message).join('\n') || 'noMSG';
+
+  logger.info('Ai, user messages', { message: prettierMs });
+
+  const res = await basicPrompt(
+    msg,
+    msg.from.username,
+    JSON.stringify(prettierMs)
+  );
+  ctx.reply(res);
+  return;
 });

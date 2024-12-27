@@ -227,12 +227,12 @@ bot.on('message', async (ctx: any) => {
 
     ctx.reply(escapeMarkdown(prettierMs));
 
-    // const res = await basicPrompt(
-    //   msg,
-    //   msg.from.username,
-    //   escapeMarkdown(prettierMs)
-    // );
-    // ctx.reply(res);
+    const res = await basicPrompt(
+      msg,
+      msg.from.username,
+      JSON.stringify(escapeMarkdown(prettierMs))
+    );
+    ctx.reply(res);
     return;
   }
 

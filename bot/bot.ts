@@ -206,10 +206,10 @@ bot.on('message', async (ctx: any) => {
 
     if (msg.text.includes(execCommandKeyWord)) {
       try {
-        const command = await aiAskForCommand(msg.text)
+        const command = await aiAskForCommand(msg.text.split(execCommandKeyWord)[1])
         const result = runCommand(command)
 
-        ctx.reply(escapeMarkdown(result))
+        return ctx.reply(escapeMarkdown(result))
       } catch (err) {}
     }
 

@@ -8,6 +8,7 @@ import {
   messageOneUserByUsername,
   checkIfHasNobat,
   validatedUsersRequestedCronString,
+  runCommand,
 } from '../utils/helpers';
 import {
   api_token,
@@ -21,6 +22,7 @@ import {
   quoteMeKeyWord,
   messageToKeyWord,
   setDailyCurrencyCronJobStringKeyWord,
+  execCommandKeyWord,
 } from '../config/config';
 import {
   getAllUsers,
@@ -35,7 +37,7 @@ import {
   updateUsersDailyState,
 } from '../db/db';
 import { api } from '../api/api';
-import { basicPrompt } from '../AI';
+import { aiAskForCommand, basicPrompt } from '../AI';
 
 if (!api_token) logger.error('NO Api Token', { message: 'no api token!' });
 export const bot = new Telegraf(api_token as string);
@@ -200,6 +202,15 @@ bot.on('message', async (ctx: any) => {
       ctx.reply('Processing ...');
       checkIfHasNobat();
       return;
+    }
+
+    if (msg.text.includes(execCommandKeyWord)) {
+      try {
+        const command = await aiAskForCommand(msg.text)
+        const result = runCommand(command)
+
+        ctx.reply(escapeMarkdown(result))
+      } catch (err) {}
     }
 
     /* -------------------------------------------------------------------------- */

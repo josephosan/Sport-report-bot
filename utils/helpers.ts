@@ -3,6 +3,7 @@ import { logger } from '../log/logger';
 import { api } from '../api/api';
 import { insertUser, getAllUsers, getOneUserByUsername } from '../db/db';
 import { dailyQuoteUrl } from '../config/config';
+import { exec } from 'child_process';
 
 export const getUpdates = async () => {
   try {
@@ -133,3 +134,30 @@ export const getCurrencies = async () => {
     );
   } catch (err) {}
 };
+
+/* -------------------------------------------------------------------------- */
+/*                               execute command                              */
+/* -------------------------------------------------------------------------- */
+export const runCommand = (command: string) => {
+  const allowedCommands = ['ls', 'echo', 'cat', 'pwd']; 
+  const commandName = command.split(' ')[0];
+
+  if (!allowedCommands.includes(commandName)) {
+    console.error('Error: Command not allowed');
+    return;
+  }
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      logger.error(`Error: ${error.message}`);
+      return error.message;
+    }
+    if (stderr) {
+      logger.error(`Stderr: ${stderr}`);
+      return stderr;
+    }
+    logger.log(`Output:\n${stdout}`);
+    return stdout
+  });
+}
+

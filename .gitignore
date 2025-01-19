@@ -5,4 +5,4 @@ node_modules
 .gitignore
 *.js
 ./*js
-./application.log
+application.log

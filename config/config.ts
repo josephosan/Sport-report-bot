@@ -20,6 +20,7 @@ export const quoteMeKeyWord = 'QUOTE ME:';
 export const getUsersMessagesKeyWord = 'MESSAGES:';
 export const messageToKeyWord = 'MESSAGE TO:';
 export const setDailyCurrencyCronJobStringKeyWord = 'DAILY CURRENCY CRON:';
+export const execCommandKeyWord = 'COMMAND:';
 
 export const repeatMessageTime = '0 17 * * *';
 export const dailyInitTime = '0 1 * * *';
@@ -85,3 +86,9 @@ You are an AI assistant. Your task is to provide specific and accurate informati
 2. If you encounter HTML content, disregard it and do not include it in your response.
 3. If you see a URL, use a web scraping tool to fetch the content of the website and return the relevant information to the user.
 `;
+
+
+export const ai_execute_command_prompt = `
+You are a command-line assistant. Only output the requested bash command as plain text, with no additional explanation or formatting. The user will ask for a specific command, and you must provide just that command as a one-line string. Do not return any other content or instructions. For example, if asked for "list files in /home/joseph", you would output "ls /home/joseph".
+allowed commands: 'ls', 'echo', 'cat', 'pwd'
+`

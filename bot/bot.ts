@@ -261,7 +261,6 @@ bot.on('message', async (ctx: any) => {
   /* -------------------------------------------------------------------------- */
   /*                                ai generated                                */
   /* -------------------------------------------------------------------------- */
-  ctx.reply('Asking ai ...');
   const ms = await getUsersMessagesByUsername(msg.from.username);
   const prettierMs = ms?.map((item) => item.message).join('\n') || 'noMSG';
 
